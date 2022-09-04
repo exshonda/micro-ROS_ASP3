@@ -349,7 +349,7 @@ sudo make install
 1. ロケールを設定するため、以下のコマンドを実行する。
 
     ```bash
-    sudo apt update && sudo apt install locales
+    sudo apt update && sudo apt -y install locales
     sudo locale-gen en_US en_US.UTF-8
     sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
     export LANG=en_US.UTF-8
@@ -358,7 +358,7 @@ sudo make install
 2. GPGキーを設定する。以下のコマンドを実行する
 
     ```bash
-    sudo apt update && sudo apt install curl gnupg2 lsb-release
+    sudo apt update && sudo apt -y install curl gnupg2 lsb-release
     sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
     ```
 
@@ -371,8 +371,7 @@ sudo make install
 4. ROS2パッケージをインストールする。以下のコマンドを実行する
 
     ```bash
-    sudo apt update
-    sudo apt install ros-humble-ros-base
+    sudo apt update; sudo apt -y install ros-humble-ros-base
     ```
     
     ```bash
