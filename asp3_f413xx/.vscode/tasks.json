@@ -1,0 +1,42 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "name": "make",
+    "type": "shell",
+    "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": [
+            "relative",
+            "${workspaceFolder}/Debug"
+        ],
+        "pattern": {
+            "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error|fatal error):\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+        }
+    },
+    "tasks": [
+        {
+            "label": "build asp3_f413xx",
+            "args": [
+                "-C",
+                "src",
+                "libkernel.a"
+            ],
+            "command": "make",
+            "group": "build"
+        },
+        {
+            "label": "clean asp3_f413xx",
+            "args": [
+                "clean"
+            ],
+            "command": "make",
+            "group": "build"
+        }
+    ]
+}
