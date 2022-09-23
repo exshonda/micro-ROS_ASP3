@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "asp3_f413xx"
+		},
+		{
+			"path": "microros"
+		},
+		{
+			"path": "micro-ros_publisher"
+		},
+		{
+			"path": "micro-ros_subscriber"
+		}
+	],
+	"settings": {
+		"terminal.integrated.defaultProfile.windows": "Msys Bash",
+		"terminal.integrated.env.windows": {
+			"PATH": "C:\\Ruby30-x64\\bin;C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2020-q4-major\\bin",
+			"CHERE_INVOKING": "1",
+			"MSYS2_PATH_TYPE": "inherit",
+			"MSYSTEM": "MINGW64"
+		}
+	}
+}

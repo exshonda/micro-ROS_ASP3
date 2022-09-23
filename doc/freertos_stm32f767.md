@@ -344,7 +344,7 @@ sudo make install
 
     ```bash
     export MAKEFLAGS="-j NUM"    
-    ```    
+    ```
 
 1. ロケールを設定するため、以下のコマンドを実行する。
 
@@ -373,7 +373,7 @@ sudo make install
     ```bash
     sudo apt update; sudo apt -y install ros-humble-ros-base
     ```
-    
+
     ```bash
     source /opt/ros/humble/setup.bash
     ```
@@ -396,7 +396,7 @@ sudo make install
     rosdep update && rosdep install --from-path src --ignore-src -y
     colcon build
     source install/local_setup.bash
-	cd ..
+    cd ..
     ```
 
 7. micro_ros_stm32cubemx_utilsをgitからクローンする。以下のコマンドを実行する。
@@ -412,12 +412,12 @@ sudo make install
     ```bash
     mkdir nucleo_f767zi
     cd nucleo_f767zi
-	ros2 run micro_ros_setup create_firmware_ws.sh  freertos nucleo_f767zi
+    ros2 run micro_ros_setup create_firmware_ws.sh  freertos nucleo_f767zi
     ```
 
     *serialのint32_publisherの場合
 
-    ```bash    
+    ```bash
     ros2 run micro_ros_setup configure_firmware.sh int32_publisher --transport serial
     ```
 
@@ -439,15 +439,14 @@ sudo make install
     sudo st-flash write ./firmware/freertos_apps/microros_nucleo_f767zi_extensions/build/micro-ROS.bin  0x8000000
     ```
 
-### 再ビルドの手順 : 
+### 再ビルドの手順
 
 1. 環境変数を設定
+
     ```bash
     source /opt/ros/humble/setup.bash
     source ~/uros_ws/install/local_setup.bash
     ```
-
-
 
 ## 変更したアプリのビルド
 

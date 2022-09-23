@@ -68,6 +68,9 @@ import("tSIOPortTarget.cdl");
 cell tSIOPortTarget SIOPortTarget1 {
 };
 
+cell tSIOPortTarget SIOPortTarget2 {
+};
+
 /*
  *  低レベル出力の組み上げ記述
  */

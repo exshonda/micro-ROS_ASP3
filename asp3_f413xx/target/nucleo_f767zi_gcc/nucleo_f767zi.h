@@ -80,6 +80,10 @@
 #define USART_NAME  USART3
 #define USART_BASE  USART3_BASE 
 
+#define USART2_INTNO (USART2_IRQn + 16)
+#define USART2_NAME  USART2
+/*#define USART2_BASE  USART2_BASE */
+
 /*
  *  ボーレート
  */
