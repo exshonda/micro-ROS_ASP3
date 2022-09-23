@@ -220,12 +220,12 @@ endif
 #
 .PHONY: all
 ifndef OMIT_TECS
-all: tecs
+all: tecs | $(DEPDIR) $(OBJDIR)
 	@$(MAKE) check
 #	@$(MAKE) check $(OBJNAME).bin
 #	@$(MAKE) check $(OBJNAME).srec
 else
-all: check
+all: check | $(DEPDIR) $(OBJDIR)
 #all: check $(OBJNAME).bin
 #all: check $(OBJNAME).srec
 endif
@@ -383,7 +383,7 @@ offset.timestamp: cfg1_out.db cfg1_out.syms cfg1_out.srec
 #
 #  カーネルライブラリファイルの生成
 #
-libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS)
+libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS) | $(DEPDIR) $(OBJDIR)
 	rm -f libkernel.a
 	$(AR) -rcs libkernel.a $(KERNEL_LIB_OBJS)
 	$(RANLIB) libkernel.a
@@ -408,6 +408,15 @@ $(OBJFILE): $(ALL_OBJS) $(LIBS_DEP)
 	$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJ_LDFLAGS) -o $(OBJFILE) \
 			$(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG_OBJS) \
 			$(ALL_LIBS) $(END_OBJS)
+
+#
+#  依存関係フォルダの作成
+#
+$(OBJDIR):
+	mkdir $@
+
+$(DEPDIR):
+	mkdir $@
 
 #
 #  シンボルファイルの生成
