@@ -1,5 +1,6 @@
 #include <kernel.h>
 #include <micro_ros_arduino.h>
+#include <pinmode.h>
 
 #include <stdio.h>
 #include <rcl/rcl.h>
@@ -27,19 +28,6 @@ rcl_timer_t timer;
 
 #define LOW 0
 #define HIGH 1
-
-void pinMode(int pin, int mode)
-{
-}
-
-void digitalWrite(int pin, int value)
-{
-}
-
-int digitalRead(int pin)
-{
-	return 0;
-}
 
 void error_loop(){
   while(1){

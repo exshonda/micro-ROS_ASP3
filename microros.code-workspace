@@ -4,6 +4,9 @@
 			"path": "asp3_f413xx"
 		},
 		{
+			"path": "micro_ros_arduino"
+		},
+		{
 			"path": "microros"
 		},
 		{
