@@ -39,10 +39,6 @@ int digitalRead(int pin)
 	return 0;
 }
 
-void set_microros_wifi_transports(const char *ssid, const char *pass, const char *dstaddr, uint16_t dstport)
-{
-}
-
 void error_loop(){
   while(1){
     digitalWrite(LED_PIN, !digitalRead(LED_PIN));
@@ -60,7 +56,7 @@ void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
 }
 
 void setup() {
-  set_microros_wifi_transports("WIFI SSID", "WIFI PASS", "192.168.1.57", 8888);
+  set_microros_transports(TASK_PORTID);
 
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);

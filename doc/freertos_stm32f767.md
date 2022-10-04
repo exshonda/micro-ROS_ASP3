@@ -302,8 +302,8 @@ set(CMAKE_CXX_COMPILER @CROSS_COMPILE@g++)
 上記をを下記のように変更し、
 
 ```cmake
-set(CMAKE_C_COMPILER @CROSS_COMPILE@gcc)
-set(CMAKE_CXX_COMPILER @CROSS_COMPILE@g++)
+set(CMAKE_C_COMPILER arm-none-eabi-gcc)
+set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
 ```
 
 自動的にダウンロードされたtoolchainではなく、システムにインストールした物を使用する。
