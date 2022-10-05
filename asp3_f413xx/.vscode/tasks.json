@@ -33,6 +33,8 @@
         {
             "label": "clean asp3_f413xx",
             "args": [
+                "-C",
+                "src",
                 "clean"
             ],
             "command": "make",
