@@ -223,13 +223,13 @@ endif
 .PHONY: all
 ifndef OMIT_TECS
 all: tecs | $(DEPDIR) $(OBJDIR)
-	@$(MAKE) check
-#	@$(MAKE) check $(OBJNAME).bin
+#	@$(MAKE) check
+	@$(MAKE) check $(OBJNAME).bin
 #	@$(MAKE) check $(OBJNAME).srec
 else
-all: check | $(DEPDIR) $(OBJDIR)
-#all: check $(OBJNAME).bin
-#all: check $(OBJNAME).srec
+#all: check | $(DEPDIR) $(OBJDIR)
+all: check $(OBJNAME).bin | $(DEPDIR) $(OBJDIR)
+#all: check $(OBJNAME).srec | $(DEPDIR) $(OBJDIR)
 endif
 
 ##### 以下は編集しないこと #####

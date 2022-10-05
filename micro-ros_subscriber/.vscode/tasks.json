@@ -23,7 +23,7 @@
 		{
 			"label": "build micro-ros_subscriber",
 			"args": [
-                "all"
+				"all"
 			],
 			"command": "make",
 			"group": "build"
