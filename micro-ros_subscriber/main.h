@@ -60,7 +60,7 @@
  */
 
 #ifndef TASK_PORTID
-#define	TASK_PORTID		1			/* 文字入力するシリアルポートID */
+#define	TASK_PORTID		2			/* 文字入力するシリアルポートID */
 #endif /* TASK_PORTID */
 
 #ifndef STACK_SIZE

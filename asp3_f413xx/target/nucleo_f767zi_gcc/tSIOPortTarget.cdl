@@ -147,6 +147,6 @@ cell tSIOPortTarget SIOPortTarget1 {
 [prototype]
 cell tSIOPortTarget SIOPortTarget2 {
 	/* 属性の設定 */
-	baseAddress     = C_EXP("USART2_BASE");
-	interruptNumber = C_EXP("USART2_INTNO");
+	baseAddress     = C_EXP("USART_2_BASE");
+	interruptNumber = C_EXP("USART_2_INTNO");
 };

@@ -130,25 +130,10 @@ target_initialize(void)
 	BSP_LED_Init(LED2);
 	BSP_LED_Init(LED3);
 
-/* LED動作確認
-		BSP_LED_On(LED1);
-	volatile int loop;
-	while(1){
-		for(loop = 0; loop < 0x100000; loop++);
-		BSP_LED_Toggle(LED1);
-		BSP_LED_Toggle(LED2);
-		BSP_LED_Toggle(LED3);
-	}
-*/
-
 	/*
 	 *  バナー出力用のシリアル初期化
 	 */
 	usart_early_init();
-
-//	while(1){
-//		ePutLog_putChar('a');
-//	}
 }
 
 /*
@@ -171,26 +156,33 @@ usart_early_init()
 
 	UartHandle.Instance          = USART_NAME; 
 	UartHandle.Init.BaudRate     = BPS_SETTING;
-//	UartHandle.Init.WordLength   = UART_WORDLENGTH_9B;
 	UartHandle.Init.WordLength   = UART_WORDLENGTH_8B;
 	UartHandle.Init.StopBits     = UART_STOPBITS_1;
-//	UartHandle.Init.Parity       = UART_PARITY_ODD;
 	UartHandle.Init.Parity       = UART_PARITY_NONE;
 	UartHandle.Init.HwFlowCtl    = UART_HWCONTROL_NONE;
 	UartHandle.Init.Mode         = UART_MODE_TX_RX;
 	UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
-  UartHandle.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  UartHandle.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-    
+	UartHandle.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+	UartHandle.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+
 	if(HAL_UART_Init(&UartHandle) != HAL_OK) {
 		Error_Handler();
 	}
-	/* UART動作確認
-	char msg[16];
-	sprintf(msg, "hello!\r\n");
-	HAL_UART_Transmit(&UartHandle, msg, strlen(msg), 0xffff);
-	*/
 
+	UartHandle.Instance          = USART_2_NAME; 
+	UartHandle.Init.BaudRate     = BPS_SETTING;
+	UartHandle.Init.WordLength   = UART_WORDLENGTH_8B;
+	UartHandle.Init.StopBits     = UART_STOPBITS_1;
+	UartHandle.Init.Parity       = UART_PARITY_NONE;
+	UartHandle.Init.HwFlowCtl    = UART_HWCONTROL_NONE;
+	UartHandle.Init.Mode         = UART_MODE_TX_RX;
+	UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
+	UartHandle.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+	UartHandle.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+
+	if(HAL_UART_Init(&UartHandle) != HAL_OK) {
+		Error_Handler();
+	}
 };
 
 /*
