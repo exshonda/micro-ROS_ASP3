@@ -222,7 +222,7 @@ endif
 #
 .PHONY: all
 ifndef OMIT_TECS
-all: tecs
+all: tecs | $(DEPDIR) $(OBJDIR)
 #	@$(MAKE) check
 	@$(MAKE) check $(OBJNAME).bin
 #	@$(MAKE) check $(OBJNAME).srec

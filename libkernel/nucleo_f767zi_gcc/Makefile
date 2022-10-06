@@ -202,7 +202,7 @@ endif
 SYSSVC_DIRS := $(TECSGENDIR) $(SRCDIR)/tecs_kernel \
 				$(SYSSVC_DIRS) $(SRCDIR)/syssvc
 SYSSVC_ASMOBJS := $(SYSSVC_ASMOBJS)
-SYSSVC_COBJS := $(SYSSVC_COBJS) syslog.o banner.o serial.o logtask.o $(TECS_COBJS) \
+SYSSVC_COBJS := $(SYSSVC_COBJS) $(TECS_COBJS) \
 				$(INIT_TECS_COBJ) $(CXXRTS)
 SYSSVC_CFLAGS := $(SYSSVC_CFLAGS)
 INCLUDES := $(INCLUDES) -I$(TECSGENDIR) -I$(SRCDIR)/tecs_kernel
@@ -220,7 +220,7 @@ endif
 #
 .PHONY: all
 ifndef OMIT_TECS
-all: tecs
+all: tecs | $(DEPDIR) $(OBJDIR)
 #	@$(MAKE) check
 	@$(MAKE) check $(OBJNAME).bin
 #	@$(MAKE) check $(OBJNAME).srec
