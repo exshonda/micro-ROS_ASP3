@@ -66,7 +66,7 @@ endif
 #
 #  ソースファイルのディレクトリの定義
 #
-SRCDIR = ..
+SRCDIR = ../../asp3_f413xx
 
 #
 #  オブジェクトファイル名の拡張子の設定
@@ -87,7 +87,7 @@ KERNEL_FUNCOBJS =
 #
 #  TECSを外すかどうかの定義
 #
-OMIT_TECS = true
+OMIT_TECS = 
 
 #
 #  TECS関係ファイルのディレクトリの定義
@@ -178,7 +178,7 @@ CFLAGS = $(COPTS) $(CDEFS) $(INCLUDES)
 #  アプリケーションプログラムに関する定義
 #
 APPLNAME = dummy
-APPLDIRS = ../src
+APPLDIRS = .
 APPL_CFG = dummy.cfg
 APPL_CDL = dummy.cdl
 
@@ -220,13 +220,13 @@ endif
 #
 .PHONY: all
 ifndef OMIT_TECS
-all: tecs | $(DEPDIR) $(OBJDIR)
-	@$(MAKE) check
-#	@$(MAKE) check $(OBJNAME).bin
+all: tecs
+#	@$(MAKE) check
+	@$(MAKE) check $(OBJNAME).bin
 #	@$(MAKE) check $(OBJNAME).srec
 else
-all: check | $(DEPDIR) $(OBJDIR)
-#all: check $(OBJNAME).bin
+#all: check
+all: check $(OBJNAME).bin
 #all: check $(OBJNAME).srec
 endif
 
@@ -383,7 +383,7 @@ offset.timestamp: cfg1_out.db cfg1_out.syms cfg1_out.srec
 #
 #  カーネルライブラリファイルの生成
 #
-libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS) | $(DEPDIR) $(OBJDIR)
+libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS)
 	rm -f libkernel.a
 	$(AR) -rcs libkernel.a $(KERNEL_LIB_OBJS)
 	$(RANLIB) libkernel.a
