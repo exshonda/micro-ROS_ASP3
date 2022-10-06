@@ -48,25 +48,25 @@ all:
 #
 #  ターゲット略称の定義
 #
-TARGET = nucleo_f767zi_gcc
+TARGET = discovery_f413xx_gcc
 
 #
 #  プログラミング言語の定義
 #
-SRCLANG = c++
+SRCLANG = c
 ifeq ($(SRCLANG),c)
 	LIBS = -lc
 endif
 ifeq ($(SRCLANG),c++)
 	USE_CXX = true
-	CXXLIBS = -lstdc++ -lm -lc -lnosys
-	CXXRTS = 
+	CXXLIBS = -lstdc++ -lm -lc
+	CXXRTS = cxxrt.o newlibrt.o
 endif
 
 #
 #  ソースファイルのディレクトリの定義
 #
-SRCDIR = ../asp3_f413xx
+SRCDIR = ..
 
 #
 #  オブジェクトファイル名の拡張子の設定
@@ -77,7 +77,7 @@ OBJEXT = elf
 #  カーネルライブラリ（libkernel.a）のディレクトリ名
 #  （カーネルライブラリもmake対象にする時は，空に定義する）
 #
-KERNEL_LIB = ../libkernel/$(TARGET)
+KERNEL_LIB = 
 
 #
 #  カーネルを関数単位でコンパイルするかどうかの定義
@@ -87,7 +87,7 @@ KERNEL_FUNCOBJS =
 #
 #  TECSを外すかどうかの定義
 #
-OMIT_TECS = 
+OMIT_TECS = true
 
 #
 #  TECS関係ファイルのディレクトリの定義
@@ -177,18 +177,18 @@ CFLAGS = $(COPTS) $(CDEFS) $(INCLUDES)
 #
 #  アプリケーションプログラムに関する定義
 #
-APPLNAME = main
-APPLDIRS = .
-APPL_CFG = main.cfg
-APPL_CDL = main.cdl
+APPLNAME = dummy
+APPLDIRS = ../src
+APPL_CFG = dummy.cfg
+APPL_CDL = dummy.cdl
 
 APPL_DIRS := $(APPLDIRS) $(SRCDIR)/library
 APPL_ASMOBJS :=
 ifdef USE_CXX
-	APPL_CXXOBJS := main.o
+	APPL_CXXOBJS := dummy.o
 	APPL_COBJS :=
 else
-	APPL_COBJS := main.o
+	APPL_COBJS := dummy.o
 endif
 APPL_COBJS := $(APPL_COBJS) log_output.o vasyslog.o t_perror.o strerror.o
 APPL_CFLAGS := $(APPL_CFLAGS)
@@ -196,15 +196,13 @@ ifdef APPLDIRS
 	INCLUDES := $(INCLUDES) $(foreach dir,$(APPLDIRS),-I$(dir))
 endif
 
-include ../micro_ros_arduino/micro_ros_arduino.mk
-
 #
 #  システムサービスに関する定義
 #
 SYSSVC_DIRS := $(TECSGENDIR) $(SRCDIR)/tecs_kernel \
 				$(SYSSVC_DIRS) $(SRCDIR)/syssvc
 SYSSVC_ASMOBJS := $(SYSSVC_ASMOBJS)
-SYSSVC_COBJS := $(SYSSVC_COBJS) $(TECS_COBJS) \
+SYSSVC_COBJS := $(SYSSVC_COBJS) syslog.o banner.o serial.o logtask.o $(TECS_COBJS) \
 				$(INIT_TECS_COBJ) $(CXXRTS)
 SYSSVC_CFLAGS := $(SYSSVC_CFLAGS)
 INCLUDES := $(INCLUDES) -I$(TECSGENDIR) -I$(SRCDIR)/tecs_kernel
@@ -223,13 +221,13 @@ endif
 .PHONY: all
 ifndef OMIT_TECS
 all: tecs | $(DEPDIR) $(OBJDIR)
-#	@$(MAKE) check
-	@$(MAKE) check $(OBJNAME).bin
+	@$(MAKE) check
+#	@$(MAKE) check $(OBJNAME).bin
 #	@$(MAKE) check $(OBJNAME).srec
 else
-#all: check | $(DEPDIR) $(OBJDIR)
-all: check $(OBJNAME).bin | $(DEPDIR) $(OBJDIR)
-#all: check $(OBJNAME).srec | $(DEPDIR) $(OBJDIR)
+all: check | $(DEPDIR) $(OBJDIR)
+#all: check $(OBJNAME).bin
+#all: check $(OBJNAME).srec
 endif
 
 ##### 以下は編集しないこと #####
@@ -293,7 +291,6 @@ endif
 #
 vpath %.c $(KERNEL_DIRS) $(SYSSVC_DIRS) $(APPL_DIRS)
 vpath %.S $(KERNEL_DIRS) $(SYSSVC_DIRS) $(APPL_DIRS)
-vpath %.cpp $(APPL_DIRS)
 vpath %.cfg $(APPL_DIRS)
 vpath %.cdl $(APPL_DIRS)
 
@@ -410,7 +407,7 @@ $(OBJDIR)/tBannerMain.o: $(filter-out $(OBJDIR)/tBannerMain.o,$(ALL_OBJS)) \
 $(OBJFILE): $(ALL_OBJS) $(LIBS_DEP)
 	$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJ_LDFLAGS) -o $(OBJFILE) \
 			$(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG_OBJS) \
-			-Wl,--start-group $(ALL_LIBS) -Wl,--end-group $(END_OBJS)
+			$(ALL_LIBS) $(END_OBJS)
 
 #
 #  依存関係フォルダの作成

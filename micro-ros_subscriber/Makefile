@@ -77,7 +77,7 @@ OBJEXT = elf
 #  カーネルライブラリ（libkernel.a）のディレクトリ名
 #  （カーネルライブラリもmake対象にする時は，空に定義する）
 #
-KERNEL_LIB = ../asp3_f413xx/src
+KERNEL_LIB = ../libkernel/$(TARGET)
 
 #
 #  カーネルを関数単位でコンパイルするかどうかの定義
