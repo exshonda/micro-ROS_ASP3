@@ -125,8 +125,9 @@ eSIOPort_open(CELLIDX idx)
 	sil_wrw_mem((void*)USART_CR3(ATTR_baseAddress), 0);
 
 	/* 通信速度設定 */
-	if (ATTR_baseAddress == USART1_BASE) {
-		/* USART1のみPCLK2を使用する */
+	if (ATTR_baseAddress == USART1_BASE ||
+		ATTR_baseAddress == USART6_BASE) {
+		/* USART1, USART6はPCLK2を使用する */
 		src_clock = HAL_RCC_GetPCLK2Freq();
 	} else {
 		src_clock = HAL_RCC_GetPCLK1Freq();
