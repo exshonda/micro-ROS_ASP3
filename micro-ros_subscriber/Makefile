@@ -409,6 +409,7 @@ $(OBJDIR)/tBannerMain.o: $(filter-out $(OBJDIR)/tBannerMain.o,$(ALL_OBJS)) \
 #
 $(OBJFILE): $(ALL_OBJS) $(LIBS_DEP)
 	$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJ_LDFLAGS) -o $(OBJFILE) \
+			-Wl,-Map=$(OBJNAME).map,--cref \
 			$(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG_OBJS) \
 			-Wl,--start-group $(ALL_LIBS) -Wl,--end-group $(END_OBJS)
 
