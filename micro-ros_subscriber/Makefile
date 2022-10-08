@@ -49,6 +49,7 @@ all:
 #  ターゲット略称の定義
 #
 TARGET = discovery_f413xx_gcc
+FPU_ABI = hard
 
 #
 #  プログラミング言語の定義
