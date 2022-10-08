@@ -441,8 +441,9 @@ libmicroros.a: $(LIBACTION_MSGS__ROSIDL_GENERATOR_C) $(LIBACTION_MSGS__ROSIDL_TY
 		done; \
 		cd ..; rm -rf $$folder; \
 		for f in *.obj; do \
-			ar rc libmicroros.a $$f; \
+			files+=" "$$f; \
 		done; \
+		ar rc libmicroros.a $$files; \
 		rm *.obj; \
 	done ; \
 	cp libmicroros.a ..; cd ..; ranlib libmicroros.a; \
