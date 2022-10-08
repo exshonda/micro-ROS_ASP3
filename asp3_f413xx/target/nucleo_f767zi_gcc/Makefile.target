@@ -15,7 +15,6 @@ TOOL  = gcc
 #
 FPU_USAGE = FPU_LAZYSTACKING
 FPU_ARCH_MACRO := __TARGET_FPU_FPV5_DP
-# FPU_ABI := hard // TODO : ASPにはついていた
 
 #
 #  使用するタイマ

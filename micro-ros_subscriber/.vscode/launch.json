@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Cortex Debug",
+            "name": "STM32F767ZI",
             "armToolchainPath": "C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2020-q4-major\\bin",
             "serverpath": "C:\\Program Files\\GNU MCU Eclipse\\OpenOCD\\0.10.0-12-20190422-2015\\bin\\openocd.exe",
             "cwd": "${workspaceFolder}",
@@ -15,6 +15,37 @@
             "svdFile": "${workspaceFolder}\\..\\svd\\STM32F7x7.svd",
             "configFiles": [
                 "board/st_nucleo_f7.cfg"
+            ],
+            "openOCDLaunchCommands": [
+                "gdb_breakpoint_override hard",
+                "gdb_flash_program disable",
+                "gdb_memory_map disable"
+            ],
+            "preLaunchCommands": [
+                "-environment-cd ${workspaceFolder}",
+                "-gdb-set breakpoint pending on",
+                "monitor reset init",
+                "monitor halt",
+                "monitor arm semihosting enable",
+                "load asp.elf",
+                "enable breakpoint"
+            ],
+            "preLaunchTask": "build ${workspaceFolderBasename}"
+        },
+        {
+            "name": "STM32F413ZH",
+            "armToolchainPath": "C:\\Program Files (x86)\\GNU Arm Embedded Toolchain\\10 2020-q4-major\\bin",
+            "serverpath": "C:\\Program Files\\GNU MCU Eclipse\\OpenOCD\\0.10.0-12-20190422-2015\\bin\\openocd.exe",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}\\asp.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32F413ZH",
+            "interface": "swd",
+            "svdFile": "${workspaceFolder}\\..\\svd\\STM32F413.svd",
+            "configFiles": [
+                "board/st_nucleo_f4.cfg"
             ],
             "openOCDLaunchCommands": [
                 "gdb_breakpoint_override hard",
