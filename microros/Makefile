@@ -436,13 +436,12 @@ libmicroros.a: $(LIBACTION_MSGS__ROSIDL_GENERATOR_C) $(LIBACTION_MSGS__ROSIDL_TY
 		folder=$$(echo $$file | sed -E "s/(.+)\/(.+).a/\2/"); \
 		echo ../../$$file; \
 		mkdir -p $$folder; cd $$folder; ar x ../../$$file; \
+		files=""; \
 		for f in *; do \
 			mv $$f ../$$folder-$$f; \
+			files+=" "$$folder-$$f; \
 		done; \
 		cd ..; rm -rf $$folder; \
-		for f in *.obj; do \
-			files+=" "$$f; \
-		done; \
 		ar rc libmicroros.a $$files; \
 		rm *.obj; \
 	done ; \
