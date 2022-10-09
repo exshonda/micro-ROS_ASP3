@@ -19,11 +19,6 @@ std_msgs__msg__Int32 msg;
 
 #define LED_PIN 13
 
-#define OUTPUT 1
-
-#define LOW 0
-#define HIGH 1
-
 void error_loop()
 {
 	while (1)
