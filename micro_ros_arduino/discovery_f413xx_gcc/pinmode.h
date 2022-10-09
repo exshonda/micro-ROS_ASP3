@@ -5,6 +5,11 @@
  extern "C" {
 #endif
 
+#define OUTPUT 1
+
+#define LOW 0
+#define HIGH 1
+
 #define DIGITAL_PIN     0
 #define ANALOG_PIN      1
 

@@ -21,7 +21,7 @@
 	},
 	"tasks": [
 		{
-			"label": "build micro-ros_publisher",
+			"label": "build micro-ros_ping_pong",
 			"args": [
 				"all"
 			],
@@ -29,7 +29,7 @@
 			"group": "build"
 		},
 		{
-			"label": "clean micro-ros_publisher",
+			"label": "clean micro-ros_ping_pong",
 			"args": [
 				"clean"
 			],

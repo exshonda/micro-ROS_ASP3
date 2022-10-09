@@ -8,6 +8,9 @@
 
 #include <uxr/client/transport.h>
 #include <rmw_microros/rmw_microros.h>
+#include <time.h>
+
+extern "C" int clock_gettime(clockid_t clk_id, struct timespec *tp);
 
 extern "C" bool arduino_transport_open(struct uxrCustomTransport * transport);
 extern "C" bool arduino_transport_close(struct uxrCustomTransport * transport);

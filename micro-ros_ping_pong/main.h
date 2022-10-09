@@ -2,13 +2,12 @@
  *  TOPPERS/ASP Kernel
  *      Toyohashi Open Platform for Embedded Real-Time Systems/
  *      Advanced Standard Profile Kernel
- *
+ * 
  *  Copyright (C) 2000-2003 by Embedded and Real-Time Systems Laboratory
  *                              Toyohashi Univ. of Technology, JAPAN
- *  Copyright (C) 2004-2010 by Embedded and Real-Time Systems Laboratory
+ *  Copyright (C) 2004-2007 by Embedded and Real-Time Systems Laboratory
  *              Graduate School of Information Science, Nagoya Univ., JAPAN
- *  Copyright (C) 2015-2016 by TOPPERS PROJECT Educational Working Group.
- *
+ * 
  *  上記著作権者は，以下の(1)～(4)の条件を満たす場合に限り，本ソフトウェ
  *  ア（本ソフトウェアを改変したものを含む．以下同じ）を使用・複製・改
  *  変・再配布（以下，利用と呼ぶ）することを無償で許諾する．
@@ -37,58 +36,50 @@
  *  に対する適合性も含めて，いかなる保証も行わない．また，本ソフトウェ
  *  アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
  *  の責任を負わない．
- *
- *  $Id$
+ * 
+ *  @(#) $Id: main.h 167 2016-03-08 11:37:45Z coas-nagasima $
  */
 
 /*
- *	ARDUNO-PINドライバのヘッダファイル
+ *	カーネル作成用ダミータスクのヘッダファイル
  */
-
-#ifndef _PINMODE_H_
-#define _PINMODE_H_
-
-#ifdef __cplusplus
- extern "C" {
-#endif
-
-#include "device.h"
-
-#define OUTPUT 1
-
-#define LOW 0
-#define HIGH 1
-
-#define DIGITAL_PIN     0
-#define ANALOG_PIN      1
-
-#ifndef TOPPERS_MACRO_ONLY
 
 /*
- *  ARDUINOO PIN 構造体
+ *  ターゲット依存の定義
  */
-typedef struct _Arduino_PortControlBlock{
-	uint32_t    gioclockbase;
-	uint32_t    gioclockbit;
-	uint32_t    giobase;
-	uint8_t     giopin;
-} Arduino_PortControlBlock;
+#include "target_test.h"
+
+/*
+ *  各タスクの優先度の定義
+ */
+
+#define MAIN_PRIORITY	5		/* メインタスクの優先度 */
+
+/*
+ *  ターゲットに依存する可能性のある定数の定義
+ */
+
+#ifndef TASK_PORTID
+#define	TASK_PORTID		2			/* 文字入力するシリアルポートID */
+#endif /* TASK_PORTID */
+
+#ifndef STACK_SIZE
+#define	STACK_SIZE		4096		/* タスクのスタックサイズ */
+#endif /* STACK_SIZE */
 
 /*
  *  関数のプロトタイプ宣言
  */
+#ifndef TOPPERS_MACRO_ONLY
 
-extern void pinClock(uint8_t no);
-extern int  digitalRead(uint8_t no);
-extern void digitalWrite(uint8_t no, int sw);
-extern Arduino_PortControlBlock *getGpioTable(uint8_t mode, uint8_t no);
-extern void pinMode(uint8_t no, uint32_t mode);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#endif /* TOPPERS_MACRO_ONLY */
+extern void	main_task(intptr_t exinf);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* _PINMODE_H_ */
-
+#endif /* TOPPERS_MACRO_ONLY */

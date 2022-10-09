@@ -20,6 +20,9 @@
 		},
 		{
 			"path": "micro-ros_subscriber"
+		},
+		{
+			"path": "micro-ros_ping_pong"
 		}
 	],
 	"settings": {
@@ -29,6 +32,8 @@
 			"CHERE_INVOKING": "1",
 			"MSYS2_PATH_TYPE": "inherit",
 			"MSYSTEM": "MINGW64"
-		}
+		},
+		"remote.SSH.remotePlatform": "linux",
+		"cortex-debug.variableUseNaturalFormat": false
 	}
 }
