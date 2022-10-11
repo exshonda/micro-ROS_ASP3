@@ -54,6 +54,7 @@
  */
 
 #define MAIN_PRIORITY	5		/* メインタスクの優先度 */
+#define	MAIN_STACK_SIZE	(1024U*10U)	/* メインタスクのスタックサイズ */
 
 /*
  *  ターゲットに依存する可能性のある定数の定義
