@@ -55,7 +55,7 @@ import_C("syssvc/serial.h");
 signature sSerialPort {
 	ER		open(void);
 	ER		close(void);
-	ER_UINT	read([out,size_is(length)] char *buffer, [in] uint_t length);
+	ER_UINT	read([out,size_is(length)] char *buffer, [in] uint_t length, [in] TMO tmout);
 	ER_UINT	write([in,size_is(length)] const char *buffer, [in] uint_t length);
 	ER		control([in] uint_t ioControl);
 	ER		refer([out] T_SERIAL_RPOR *pk_rpor);

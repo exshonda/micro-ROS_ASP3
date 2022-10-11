@@ -81,7 +81,7 @@ serial_cls_por(ID portid)
  *  シリアルポートからの文字列受信（サービスコール）
  */
 ER_UINT
-serial_rea_dat(ID portid, char *buf, uint_t len)
+serial_trea_dat(ID portid, char *buf, uint_t len, TMO tmout)
 {
 	if (sns_dpn()) {				/* コンテキストのチェック */
 		return(E_CTX);
@@ -90,7 +90,7 @@ serial_rea_dat(ID portid, char *buf, uint_t len)
 		return(E_ID);				/* ポート番号のチェック */
 	}
 
-	return(cSerialPort_read(portid - 1, buf, len));
+	return(cSerialPort_read(portid - 1, buf, len, tmout));
 }
 
 /*

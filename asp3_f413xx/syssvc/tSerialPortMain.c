@@ -396,7 +396,7 @@ serialPort_readChar(CELLCB *p_cellcb, char *p_c)
  *  シリアルポートからの文字列受信（受け口関数）
  */
 ER_UINT
-eSerialPort_read(CELLIDX idx, char *buffer, uint_t length)
+eSerialPort_read(CELLIDX idx, char *buffer, uint_t length, TMO tmout)
 {
 	CELLCB	*p_cellcb;
 	bool_t	buffer_empty;
@@ -422,8 +422,14 @@ eSerialPort_read(CELLIDX idx, char *buffer, uint_t length)
 	buffer_empty = true;			/* ループの1回めはwai_semする */
 	while (reacnt < length) {
 		if (buffer_empty) {
-			SVC(rercd = cReceiveSemaphore_wait(),
-										gen_ercd_wait(rercd, p_cellcb));
+			rercd = cReceiveSemaphore_waitTimeout(tmout);
+			if (rercd == E_TMOUT)
+				return E_TMOUT;
+			if (rercd < 0) {
+				gen_ercd_wait(rercd, p_cellcb);
+				ercd = rercd;
+				goto error_exit;
+			}
 		}
 		SVC(rercd = serialPort_readChar(p_cellcb, &c), rercd);
 		*buffer++ = c;
@@ -568,7 +574,7 @@ eiSIOCBR_readyReceive(CELLIDX idx)
 		 *  送信を再開する．
 		 */
 		VAR_sendStopped = false;
-		while (VAR_sendCount > 0U) {
+		if (VAR_sendCount > 0U) {
 			c = VAR_sendBuffer[VAR_sendReadPointer];
 			if (serialPort_sendChar(p_cellcb, c)) {
 				INC_PTR(VAR_sendReadPointer, ATTR_sendBufferSize);
@@ -578,9 +584,6 @@ eiSIOCBR_readyReceive(CELLIDX idx)
 					}
 				}
 				VAR_sendCount--;
-			}
-			else {
-				break;
 			}
 		}
 	}

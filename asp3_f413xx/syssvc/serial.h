@@ -65,10 +65,15 @@ typedef struct {
  */
 extern ER		serial_opn_por(ID portid) throw();
 extern ER		serial_cls_por(ID portid) throw();
-extern ER_UINT	serial_rea_dat(ID portid, char *buf, uint_t len) throw();
+extern ER_UINT	serial_trea_dat(ID portid, char *buf, uint_t len, TMO tmout) throw();
 extern ER_UINT	serial_wri_dat(ID portid, const char *buf, uint_t len) throw();
 extern ER		serial_ctl_por(ID portid, uint_t ioctl) throw();
 extern ER		serial_ref_por(ID portid, T_SERIAL_RPOR *pk_rpor) throw();
+
+Inline ER_UINT	serial_rea_dat(ID portid, char *buf, uint_t len)
+{
+	return serial_trea_dat(portid, buf, len, TMO_FEVR);
+}
 
 /*
  *  シリアルインタフェースドライバの動作制御用のための定数

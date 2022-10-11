@@ -90,8 +90,8 @@ extern "C" size_t arduino_transport_read(struct uxrCustomTransport* transport, u
 {
 	ER_UINT	ercd;
 
-	ercd = serial_rea_dat((ID)transport->args, (char *)buf, len);
-	if (ercd < 0 && MERCD(ercd) != E_OBJ) {
+	ercd = serial_trea_dat((ID)transport->args, (char *)buf, len, timeout);
+	if (ercd < 0 && MERCD(ercd) != E_OBJ && MERCD(ercd) != E_TMOUT) {
 		syslog(LOG_ERROR, "%s (%d) reported by `serial_rea_dat'.",
 									itron_strerror(MERCD(ercd)), SERCD(ercd));
 		if (err != NULL)
