@@ -77,13 +77,13 @@ extern "C" size_t arduino_transport_write(struct uxrCustomTransport* transport, 
 									itron_strerror(MERCD(ercd)), SERCD(ercd));
 		if (err != NULL)
 			*err = MERCD(ercd);
-		return false;
+		return 0;
 	}
 
 	if (err != NULL)
 		*err = 0;
 
-	return true;
+	return ercd;
 }
 
 extern "C" size_t arduino_transport_read(struct uxrCustomTransport* transport, uint8_t* buf, size_t len, int timeout, uint8_t* err)
@@ -96,11 +96,11 @@ extern "C" size_t arduino_transport_read(struct uxrCustomTransport* transport, u
 									itron_strerror(MERCD(ercd)), SERCD(ercd));
 		if (err != NULL)
 			*err = MERCD(ercd);
-		return false;
+		return 0;
 	}
 
 	if (err != NULL)
 		*err = 0;
 
-	return true;
+	return ercd;
 }
