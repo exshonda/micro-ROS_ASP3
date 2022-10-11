@@ -48,8 +48,7 @@ extern "C" bool arduino_transport_open(struct uxrCustomTransport * transport)
 									itron_strerror(ercd), SERCD(ercd));
 		return false;
 	}
-	SVC_PERROR(serial_ctl_por((ID)transport->args,
-							(IOCTL_CRLF | IOCTL_FCSND | IOCTL_FCRCV)));
+	SVC_PERROR(serial_ctl_por((ID)transport->args, 0));
 
 	return true;
 }
