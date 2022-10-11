@@ -104,3 +104,7 @@ extern "C" size_t arduino_transport_read(struct uxrCustomTransport* transport, u
 
 	return ercd;
 }
+
+extern "C" void _fini()
+{
+}
