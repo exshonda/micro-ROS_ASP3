@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "micro-ros_ping_pong"
+		},
+		{
+			"path": "micro-ros_joystick"
 		}
 	],
 	"settings": {

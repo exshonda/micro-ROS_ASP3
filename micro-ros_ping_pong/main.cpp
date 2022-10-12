@@ -86,8 +86,8 @@ void pong_subscription_callback(const void * msgin)
 }
 
 /*
-*  メインタスク
-*/
+ *  メインタスク
+ */
 extern "C" void main_task(intptr_t exinf)
 {
 	set_microros_transports(TASK_PORTID);
