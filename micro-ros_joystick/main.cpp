@@ -81,7 +81,7 @@ extern "C" void main_task(intptr_t exinf)
 
 	pinMode(LED_PIN, OUTPUT);
 
-	allocator =rcl_get_default_allocator();
+	allocator = rcl_get_default_allocator();
 	printf("rcl_get_default_allocator\n");
 
 	//create init_options
@@ -93,18 +93,13 @@ extern "C" void main_task(intptr_t exinf)
 	printf("rclc_node_init_default\n");
 
 	// create publisher
-	RCCHECK(rclc_publisher_init_best_effort(
-	&publisher,
-	&node,
-	ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Joy), "/zumo_joy"));
-
+	RCCHECK(rclc_publisher_init_best_effort(&publisher, &node,
+		ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Joy), "/zumo_joy"));
 	printf("rclc_publisher_init_best_effort\n");
 
 	// create subscriber
-	RCCHECK(rclc_subscription_init_best_effort(
-	&subscriber,
-	&node,
-	ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Imu), "/zumo_imu"));
+	RCCHECK(rclc_subscription_init_best_effort(&subscriber, &node,
+		ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Imu), "/zumo_imu"));
 	printf("rclc_subscription_init_best_effort\n");
 
 	// create executor

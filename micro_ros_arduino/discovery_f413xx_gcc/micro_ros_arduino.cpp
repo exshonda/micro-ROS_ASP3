@@ -108,3 +108,61 @@ extern "C" size_t arduino_transport_read(struct uxrCustomTransport* transport, u
 extern "C" void _fini()
 {
 }
+
+extern "C" void __malloc_lock(void * reent)
+{
+	loc_cpu();
+}
+
+extern "C" void __malloc_unlock(void * reent)
+{
+	unl_cpu();
+}
+
+#define HEAP_AREA_SIZE 16*1024
+/*static*/ uint32_t heap_area[HEAP_AREA_SIZE] __attribute__((aligned(4096)));
+
+void *_heap_param[2] = {
+	(void *)heap_area,
+	(void *)(HEAP_AREA_SIZE*sizeof(uint32_t))
+};
+
+static uintptr_t *heap_param = (uintptr_t *)_heap_param;
+
+extern "C" void *_sbrk(int incr)
+{ 
+	static char *heap_end = NULL;
+	char        *prev_heap_end;
+
+	if(incr < 0 || incr > heap_param[1]){
+		syslog_1(LOG_ERROR, "_sbrk: incr[%08x] parameter error !", incr);
+		return (void *)-1;
+	}
+
+	if(heap_end == NULL)
+		heap_end = (char *)heap_param[0];
+
+	prev_heap_end  = heap_end;
+	heap_end      += incr;
+
+	if(heap_end < (char *)(heap_param[0]+heap_param[1]))
+		return (void *) prev_heap_end;
+	else{
+		heap_end = prev_heap_end;
+		syslog_1(LOG_ERROR, "_sbrk: incr[%08x] allocation error !", incr);
+		return (void *)-1;
+	}
+}
+
+#include "syssvc/serial.h"
+
+extern "C" long _write(int fd, const void *buf, long count)
+{
+	if ((fd != 1) && (fd != 2))
+		return 0;
+
+	serial_wri_dat(1, (const char *)buf, count);
+
+	return count;
+}
+
