@@ -123,6 +123,7 @@
     salt
     {
     {T
+        firmware
         + dev_ws
         + freertos_apps
         + mcu_ws
@@ -149,6 +150,7 @@
     salt
     {
     {T
+        micro-ROS_ASP3
         + asp3_f413xx
         + libkernel
         ++ nucleo_f767zi_gcc
@@ -205,6 +207,7 @@
     salt
     {
     {T
+        micro-ROS_ASP3
         + micro-ros_joystick
         ++ **asp.bin**
         + micro-ros_ping_pong

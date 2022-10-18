@@ -41,6 +41,7 @@
 		},
 		"remote.SSH.remotePlatform": "linux",
 		"cortex-debug.variableUseNaturalFormat": false,
-		"plantuml.server": "https://www.plantuml.com/plantuml"
+		"plantuml.server": "https://www.plantuml.com/plantuml",
+		"markdown-pdf.plantumlServer": "https://www.plantuml.com/plantuml"
 	}
 }
