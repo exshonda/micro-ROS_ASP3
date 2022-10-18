@@ -3,7 +3,7 @@ MAKE = make
 
 LIBKERNEL_F413 = libkernel/discovery_f413xx_gcc/libkernel.a
 LIBKERNEL_F767 = libkernel/nucleo_f767zi_gcc/libkernel.a
-LIBMICROROS = microros/libmicroros.a
+LIBMICROROS = mcu_ws/libmicroros.a
 PUBLISHER_ELF = micro-ros_publisher/asp.elf
 SUBSCRIBER_ELF = micro-ros_subscriber/asp.elf
 PING_PONG_ELF = micro-ros_ping_pong/asp.elf
@@ -16,7 +16,7 @@ $(LIBKERNEL_F767):
 	$(MAKE) -j -C libkernel/nucleo_f767zi_gcc libkernel.a
 
 $(LIBMICROROS):
-	$(MAKE) -j -C microros all
+	$(MAKE) -j -C mcu_ws all
 
 $(PUBLISHER_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS)
 	$(MAKE) -j -C micro-ros_publisher all
@@ -47,7 +47,7 @@ all: refresh $(PUBLISHER_ELF) $(SUBSCRIBER_ELF) $(PING_PONG_ELF) $(JOYSTICK_ELF)
 clean:
 	$(MAKE) -j -C libkernel/discovery_f413xx_gcc clean
 	$(MAKE) -j -C libkernel/nucleo_f767zi_gcc clean
-#	$(MAKE) -j -C microros clean
+#	$(MAKE) -j -C mcu_ws clean
 	$(MAKE) -j -C micro-ros_publisher clean
 	$(MAKE) -j -C micro-ros_subscriber clean
 	$(MAKE) -j -C micro-ros_ping_pong clean
@@ -57,7 +57,7 @@ clean:
 realclean:
 	$(MAKE) -j -C libkernel/discovery_f413xx_gcc realclean
 	$(MAKE) -j -C libkernel/nucleo_f767zi_gcc realclean
-#	$(MAKE) -j -C microros clean
+#	$(MAKE) -j -C mcu_ws clean
 	$(MAKE) -j -C micro-ros_publisher realclean
 	$(MAKE) -j -C micro-ros_subscriber realclean
 	$(MAKE) -j -C micro-ros_ping_pong realclean

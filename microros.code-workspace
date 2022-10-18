@@ -13,7 +13,10 @@
 			"path": "micro_ros_arduino"
 		},
 		{
-			"path": "microros"
+			"path": "mcu_ws"
+		},
+		{
+			"path": "mcu_ws_f767zi"
 		},
 		{
 			"path": "micro-ros_publisher"

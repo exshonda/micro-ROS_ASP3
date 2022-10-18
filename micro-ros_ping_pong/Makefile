@@ -50,6 +50,7 @@ all:
 #
 TARGET = discovery_f413xx_gcc
 FPU_ABI = hard
+MCU_WS = mcu_ws
 
 #
 #  プログラミング言語の定義
