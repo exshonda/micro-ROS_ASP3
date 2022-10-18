@@ -4,6 +4,7 @@ MAKE = make
 LIBKERNEL_F413 = libkernel/discovery_f413xx_gcc/libkernel.a
 LIBKERNEL_F767 = libkernel/nucleo_f767zi_gcc/libkernel.a
 LIBMICROROS = mcu_ws/libmicroros.a
+LIBMICROROS_F767 = mcu_ws_f767zi/libmicroros.a
 PUBLISHER_ELF = micro-ros_publisher/asp.elf
 SUBSCRIBER_ELF = micro-ros_subscriber/asp.elf
 PING_PONG_ELF = micro-ros_ping_pong/asp.elf
@@ -18,16 +19,19 @@ $(LIBKERNEL_F767):
 $(LIBMICROROS):
 	$(MAKE) -j -C mcu_ws all
 
-$(PUBLISHER_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS)
+$(LIBMICROROS_F767):
+	$(MAKE) -j -C mcu_ws_f767zi all
+
+$(PUBLISHER_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS) $(LIBMICROROS_F767)
 	$(MAKE) -j -C micro-ros_publisher all
 
-$(SUBSCRIBER_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS)
+$(SUBSCRIBER_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS) $(LIBMICROROS_F767)
 	$(MAKE) -j -C micro-ros_subscriber all
 
-$(PING_PONG_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS)
+$(PING_PONG_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS) $(LIBMICROROS_F767)
 	$(MAKE) -j -C micro-ros_ping_pong all
 
-$(JOYSTICK_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS)
+$(JOYSTICK_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS) $(LIBMICROROS_F767)
 	$(MAKE) -j -C micro-ros_joystick all
 
 .PHONY: refresh
@@ -35,6 +39,7 @@ refresh:
 	rm -f $(LIBKERNEL_F413)
 	rm -f $(LIBKERNEL_F767)
 #	rm -f $(LIBMICROROS)
+#	rm -f $(LIBMICROROS_F767)
 	rm -f $(PUBLISHER_ELF)
 	rm -f $(SUBSCRIBER_ELF)
 	rm -f $(PING_PONG_ELF)
@@ -48,6 +53,7 @@ clean:
 	$(MAKE) -j -C libkernel/discovery_f413xx_gcc clean
 	$(MAKE) -j -C libkernel/nucleo_f767zi_gcc clean
 #	$(MAKE) -j -C mcu_ws clean
+#	$(MAKE) -j -C mcu_ws_f767zi clean
 	$(MAKE) -j -C micro-ros_publisher clean
 	$(MAKE) -j -C micro-ros_subscriber clean
 	$(MAKE) -j -C micro-ros_ping_pong clean
@@ -58,6 +64,7 @@ realclean:
 	$(MAKE) -j -C libkernel/discovery_f413xx_gcc realclean
 	$(MAKE) -j -C libkernel/nucleo_f767zi_gcc realclean
 #	$(MAKE) -j -C mcu_ws clean
+#	$(MAKE) -j -C mcu_ws_f767zi clean
 	$(MAKE) -j -C micro-ros_publisher realclean
 	$(MAKE) -j -C micro-ros_subscriber realclean
 	$(MAKE) -j -C micro-ros_ping_pong realclean
