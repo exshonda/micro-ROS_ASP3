@@ -120,6 +120,7 @@
     ```
 
     `firmware.zip`ファイルの中か下記のフォルダツリーとなっている。
+    TOPPERSアプリで必要なのは`mcu_ws`フォルダのみ。
 
     ```plantuml
     @startuml
