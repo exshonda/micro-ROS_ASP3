@@ -1,10 +1,14 @@
 # micro-ROSの調査
 
+## 動作確認バージョン
+
+- ROS2 : Humble
+
 ## 作業環境
 
 ビルド環境は下記を用意した。
 
-1. PCにUbuntu 22.04 64bitをインストールした環境
+1. Ubuntu PC : Ubuntu 22.04 64bitをインストールしたPC環境
 
     micro-ROSをビルドし、libmicroros.aや*.hをビルドする環境
 
@@ -12,13 +16,13 @@
 
     TOPPERS/ASP3やサンプルアプリをビルドする環境
 
-3. Raspberry Pi 3B+にUbuntu 22.04 64bitをインストールした環境
+3. Raspberry Pi : Raspberry Pi 3B+にUbuntu 22.04 64bitをインストールした環境
 
     エージェント（`Micro-XRCE-DDS-Agent`）を実行し、USBシリアルでターゲットボードと通信
 
-## Ubuntu 22.04 の環境
+## Ubuntu PC の環境設定
 
-### ROS開発環境の構築
+### micro-ROS開発環境の構築
 
 0. 前準備 : ビルドを高速化するために以下を設定。NUMには並列コンパイルの数を記載する。
 
@@ -231,13 +235,15 @@
     source ~/uros_ws/install/local_setup.bash
     ```
 
-## エージェントとの通信
+## Raspberry Pi 環境
+
+### エージェントとの通信
 
 1. エージェントのビルド
 
     `Micro-XRCE-DDS-Agent`はLinuxのみでシリアル通信をサポートしているので、Raspberry Piでビルドした。
 
-    下記の記事を参考にで`Micro-XRCE-DDS-Agent`をビルドする。
+    下記の記事を参考に`Micro-XRCE-DDS-Agent`をビルドする。
     <https://qiita.com/lutecia16v/items/5760551dd3a7a0d3e7d3>
 
 2. `Micro-XRCE-DDS-Agent`のコードをクローン
