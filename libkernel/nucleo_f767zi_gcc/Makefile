@@ -383,7 +383,7 @@ offset.timestamp: cfg1_out.db cfg1_out.syms cfg1_out.srec
 #
 #  カーネルライブラリファイルの生成
 #
-libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS)
+libkernel.a: $(DEPDIR) $(OBJDIR) $(OFFSET_H) $(KERNEL_LIB_OBJS)
 	rm -f libkernel.a
 	$(AR) -rcs libkernel.a $(KERNEL_LIB_OBJS)
 	$(RANLIB) libkernel.a
