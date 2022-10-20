@@ -75,10 +75,12 @@
 #ifndef TOPPERS_MACRO_ONLY
 #ifndef TECSGEN
 
+extern void target_abort(void);
+
 Inline void
 TOPPERS_assert_abort(void)
 {
-  target_abort();
+    target_abort();
 	while (1) ;
 }
 

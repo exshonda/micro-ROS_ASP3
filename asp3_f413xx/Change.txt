@@ -1,0 +1,11 @@
+spike-rt用のASP3からの変更点
+
+Pybricksなしで動作するよう変更
+・./primehub_gcc/Makefile.target 
+  ・/drivers/Makefile をインクルードしない．
+  ・libpybrikcs.a をリンク
+・./primehub_gcc/target_kernel.cfg
+  ・INCLUDE("drivers/pybricks.cfg") をコメントアウト
+・./primehub_gcc/target_kernel_impl.c
+  ・pb_SystemInit() を呼び出し．
+  

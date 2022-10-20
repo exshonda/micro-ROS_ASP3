@@ -117,6 +117,8 @@ target_initialize(void)
 	 *  バーナー出力用のシリアル初期化
 	 */
 	usart_early_init();
+//    tPutLogTarget_ePutLog_putChar('a');
+    pb_SystemInit();
 }
 
 /*
