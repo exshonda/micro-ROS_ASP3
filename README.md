@@ -21,28 +21,18 @@
 - libkernel\nucleo_f767zi_gcc
   - nucleo_f767zi_gcc向けlibkernel.aのビルド環境
 
-- micro_ros_arduino
+- micro_ros_asp
   - micro-ROSとTOPPERSアプリとのインターフェイス
   - discovery_f413xx_gcc
-    - micro_ros_arduino.h
-      - <https://github.com/micro-ROS/micro_ros_arduino>を参考に不要な部分を削除
-    - micro_ros_arduino.cpp
+    - micro_ros_asp.h
+      - <https://github.com/micro-ROS/micro_ros_asp>を参考に不要な部分を削除
+    - micro_ros_asp.c
       - TOPPERSシリアルドライバを使うよう実装
-    - pinmode.cpp
-      - Arduino APIのデジタルIOの空実装
-    - pinmode.h
-      - Arduino APIのデジタルIOの定義
   - discovery_f413xx_gcc
-    - micro_ros_arduino.h
-      - <https://github.com/micro-ROS/micro_ros_arduino>を参考に不要な部分を削除
-    - micro_ros_arduino.cpp
+    - micro_ros_asp.h
+      - <https://github.com/micro-ROS/micro_ros_asp>を参考に不要な部分を削除
+    - micro_ros_asp.c
       - TOPPERSシリアルドライバを使うよう実装
-    - pinmode.cpp
-      - Arduino APIのデジタルIOの実装（TOPPERS BASE PLATFORMから）
-    - pinmode.h
-      - Arduino APIのデジタルIOの定義（TOPPERS BASE PLATFORMから）
-    - device.h
-      - pinmode.cpp/hで使用する定義（TOPPERS BASE PLATFORMから）
 
 - mcu_ws
   - <https://github.com/micro-ROS/micro_ros_setup>の手順に従ってビルドした、ST Nucleo F446RE向けのヘッダとライブラリ
@@ -52,14 +42,14 @@
   - Makefileを実行すると、配下の各ライブラリから`libmicroros.a`を作成する
 
 - micro-ros_publisher
-  - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cppを作成
+  - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
 - micro-ros_subscriber
-  - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cppを作成
+  - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
 - micro-ros_ping_pong
-  - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cppを作成
+  - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
 - micro-ros_joystick
-  - 以前作ったWioTerminal\Demo_Zumo_Ros2_RC_Controller\main.cppを参考にmain.cppを作成
+  - 以前作ったWioTerminal\Demo_Zumo_Ros2_RC_Controller\main.cを参考にmain.cを作成
 - 上記4フォルダ共通
   - MakefileはF413向け
   - Makefile.F767はF767向け
-  - TOPPERS/ASP3のMakefileに`micro_ros_arduino\micro_ros_arduino.mk`をインクルードし、`libmicroros.a`をリンクするよう変更
+  - TOPPERS/ASP3のMakefileに`micro_ros_asp\micro_ros_asp.mk`をインクルードし、`libmicroros.a`をリンクするよう変更

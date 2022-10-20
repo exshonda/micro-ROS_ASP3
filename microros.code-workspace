@@ -10,7 +10,7 @@
 			"path": "libkernel"
 		},
 		{
-			"path": "micro_ros_arduino"
+			"path": "micro_ros_asp"
 		},
 		{
 			"path": "mcu_ws"

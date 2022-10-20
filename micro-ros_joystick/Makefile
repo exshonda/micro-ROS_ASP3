@@ -55,9 +55,9 @@ MCU_WS = mcu_ws
 #
 #  プログラミング言語の定義
 #
-SRCLANG = c++
+SRCLANG = c
 ifeq ($(SRCLANG),c)
-	LIBS = -lc
+	LIBS = -lc -lnosys
 endif
 ifeq ($(SRCLANG),c++)
 	USE_CXX = true
@@ -198,7 +198,7 @@ ifdef APPLDIRS
 	INCLUDES := $(INCLUDES) $(foreach dir,$(APPLDIRS),-I$(dir))
 endif
 
-include ../micro_ros_arduino/micro_ros_arduino.mk
+include ../micro_ros_asp/micro_ros_asp.mk
 
 #
 #  システムサービスに関する定義

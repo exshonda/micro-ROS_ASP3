@@ -1,4 +1,4 @@
-#include "micro_ros_arduino.h"
+#include "micro_ros_asp.h"
 #include <kernel.h>
 #include <t_stdlib.h>
 #include "syssvc/serial.h"
@@ -24,7 +24,7 @@ svc_perror(const char *file, int_t line, const char *expr, ER ercd)
 
 #define	SVC_PERROR(expr)	svc_perror(__FILE__, __LINE__, #expr, (expr))
 
-extern "C" int clock_gettime(clockid_t clk_id, struct timespec *tp)
+int clock_gettime(clockid_t clk_id, struct timespec *tp)
 {
 	SYSTIM now = 0;
 
@@ -38,7 +38,7 @@ extern "C" int clock_gettime(clockid_t clk_id, struct timespec *tp)
 	return 0;
 }
 
-extern "C" bool arduino_transport_open(struct uxrCustomTransport * transport)
+bool asp_transport_open(struct uxrCustomTransport * transport)
 {
 	ER_UINT	ercd;
 
@@ -53,7 +53,7 @@ extern "C" bool arduino_transport_open(struct uxrCustomTransport * transport)
 	return true;
 }
 
-extern "C" bool arduino_transport_close(struct uxrCustomTransport * transport)
+bool asp_transport_close(struct uxrCustomTransport * transport)
 {
 	ER_UINT	ercd;
 
@@ -67,7 +67,7 @@ extern "C" bool arduino_transport_close(struct uxrCustomTransport * transport)
 	return true;
 }
 
-extern "C" size_t arduino_transport_write(struct uxrCustomTransport* transport, const uint8_t * buf, size_t len, uint8_t * err)
+size_t asp_transport_write(struct uxrCustomTransport* transport, const uint8_t * buf, size_t len, uint8_t * err)
 {
 	ER_UINT	ercd;
 
@@ -86,7 +86,7 @@ extern "C" size_t arduino_transport_write(struct uxrCustomTransport* transport, 
 	return ercd;
 }
 
-extern "C" size_t arduino_transport_read(struct uxrCustomTransport* transport, uint8_t* buf, size_t len, int timeout, uint8_t* err)
+size_t asp_transport_read(struct uxrCustomTransport* transport, uint8_t* buf, size_t len, int timeout, uint8_t* err)
 {
 	ER_UINT	ercd;
 
@@ -105,16 +105,16 @@ extern "C" size_t arduino_transport_read(struct uxrCustomTransport* transport, u
 	return ercd;
 }
 
-extern "C" void _fini()
+void _fini()
 {
 }
 
-extern "C" void __malloc_lock(void * reent)
+void __malloc_lock(void * reent)
 {
 	loc_cpu();
 }
 
-extern "C" void __malloc_unlock(void * reent)
+void __malloc_unlock(void * reent)
 {
 	unl_cpu();
 }
@@ -129,7 +129,7 @@ void *_heap_param[2] = {
 
 static uintptr_t *heap_param = (uintptr_t *)_heap_param;
 
-extern "C" void *_sbrk(int incr)
+void *_sbrk(int incr)
 { 
 	static char *heap_end = NULL;
 	char        *prev_heap_end;
@@ -156,7 +156,7 @@ extern "C" void *_sbrk(int incr)
 
 #include "syssvc/serial.h"
 
-extern "C" long _write(int fd, const void *buf, long count)
+long _write(int fd, const void *buf, long count)
 {
 	if ((fd != 1) && (fd != 2))
 		return 0;
