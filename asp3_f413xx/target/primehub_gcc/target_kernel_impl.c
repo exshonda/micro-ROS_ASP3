@@ -117,7 +117,7 @@ target_initialize(void)
 	 *  バーナー出力用のシリアル初期化
 	 */
 	usart_early_init();
-//    tPutLogTarget_ePutLog_putChar('a');
+    tPutLogTarget_ePutLog_putChar('a');
     pb_SystemInit();
 }
 
@@ -164,6 +164,19 @@ usart_early_init()
 	if(HAL_UART_Init(&UartHandle) != HAL_OK) {
 		Error_Handler();
 	}
+
+	UartHandle.Instance          = UART10; 
+	UartHandle.Init.BaudRate     = BPS_SETTING;
+	UartHandle.Init.WordLength   = UART_WORDLENGTH_8B;
+	UartHandle.Init.StopBits     = UART_STOPBITS_1;
+	UartHandle.Init.Parity       = UART_PARITY_NONE;
+	UartHandle.Init.HwFlowCtl    = UART_HWCONTROL_NONE;
+	UartHandle.Init.Mode         = UART_MODE_TX_RX;
+	UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
+    
+	if(HAL_UART_Init(&UartHandle) != HAL_OK) {
+		Error_Handler();
+	}    
 };
 
 /*

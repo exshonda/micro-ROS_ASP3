@@ -8,4 +8,5 @@ Pybricksなしで動作するよう変更
   ・INCLUDE("drivers/pybricks.cfg") をコメントアウト
 ・./primehub_gcc/target_kernel_impl.c
   ・pb_SystemInit() を呼び出し．
-  
+
+PortE(UART10)を使用可能に

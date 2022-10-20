@@ -80,6 +80,9 @@
 #define USART_NAME  UART9
 #define USART_BASE  UART9_BASE 
 
+#define USART10_INTNO (89 + 16)
+#define USART10_BASE  0x40011C00U
+
 /*
  *  ボーレート
  */
@@ -112,6 +115,26 @@ usart_low_init(void) {
 	GPIO_InitStruct.Alternate = GPIO_AF11_UART9;
     
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+
+	/* Enable Clock */
+	__HAL_RCC_GPIOE_CLK_ENABLE();
+	__HAL_RCC_UART10_CLK_ENABLE();
+  
+	/* UART TX GPIO pin configuration  */
+	GPIO_InitStruct.Pin       = GPIO_PIN_3;
+	GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull      = GPIO_PULLUP;
+	GPIO_InitStruct.Speed     = GPIO_SPEED_FAST;
+	GPIO_InitStruct.Alternate = GPIO_AF11_UART10;
+
+	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+    
+	/* UART RX GPIO pin configuration  */
+	GPIO_InitStruct.Pin = GPIO_PIN_2;
+	GPIO_InitStruct.Alternate = GPIO_AF11_UART10;
+    
+	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);    
 }
 #endif /* TECSGEN */
 #endif /* TOPPERS_MACRO_ONLY */

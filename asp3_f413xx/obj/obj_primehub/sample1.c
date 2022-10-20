@@ -341,6 +341,17 @@ main_task(intptr_t exinf)
 	SVC_PERROR(serial_ctl_por(TASK_PORTID,
 							(IOCTL_CRLF | IOCTL_FCSND | IOCTL_FCRCV)));
 
+
+	ercd = serial_opn_por(2);
+	if (ercd < 0 && MERCD(ercd) != E_OBJ) {
+		syslog(LOG_ERROR, "%s (%d) reported by `serial_opn_por'.",
+									itron_strerror(ercd), SERCD(ercd));
+	}
+	SVC_PERROR(serial_ctl_por(2,
+							(IOCTL_CRLF | IOCTL_FCSND | IOCTL_FCRCV)));
+    
+    serial_wri_dat(2, "test----", 8);
+     
 	/*
  	 *  ループ回数の設定
 	 *

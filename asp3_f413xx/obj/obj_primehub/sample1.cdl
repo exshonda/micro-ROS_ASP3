@@ -50,6 +50,7 @@ cell tSysLogAdapter SysLogAdapter {
  */
 cell tSerialAdapter SerialAdapter {
 	cSerialPort[0] = SerialPort1.eSerialPort;
+	cSerialPort[1] = SerialPort2.eSerialPort;
 };
 
 /*
@@ -86,6 +87,15 @@ cell tSerialPort SerialPort1 {
 	/* ターゲット依存部との結合 */
 	cSIOPort = SIOPortTarget1.eSIOPort;
 	eiSIOCBR <= SIOPortTarget1.ciSIOCBR;	/* コールバック */
+};
+
+cell tSerialPort SerialPort2 {
+	receiveBufferSize = 256;			/* 受信バッファのサイズ */
+	sendBufferSize    = 256;			/* 送信バッファのサイズ */
+
+	/* ターゲット依存部との結合 */
+	cSIOPort = SIOPortTarget2.eSIOPort;
+	eiSIOCBR <= SIOPortTarget2.ciSIOCBR;	/* コールバック */
 };
 
 /*
