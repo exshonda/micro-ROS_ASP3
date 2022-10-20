@@ -107,6 +107,14 @@
 
     ping_pongは、パブリッシャーが2つ`RMW_UXRCE_MAX_PUBLISHERS=2`、サブスクライバー2つ`RMW_UXRCE_MAX_SUBSCRIPTIONS=2`でビルドされるので、他のアプリより汎用的。
 
+    コンパイルオプションを変更する
+
+    firmware/freertos_apps/microros_nucleo_f446re_extensions/Makefile
+    
+    ```bash
+    FLOAT-ABI = -mfloat-abi=softfp
+    ```
+
 9. ビルドを実行する。
 
     ```bash
