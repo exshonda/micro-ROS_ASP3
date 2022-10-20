@@ -1,4 +1,5 @@
 #include <kernel.h>
+#include <t_syslog.h>
 #include <micro_ros_asp.h>
 
 #include <stdio.h>
@@ -18,7 +19,7 @@ rcl_subscription_t subscriber;
 
 void error_loop()
 {
-	printf("error_loop\n");
+	syslog(LOG_NOTICE, "error_loop\n");
 	while (1)
 	{
 		dly_tsk(100);
@@ -28,7 +29,7 @@ void error_loop()
 void subscription_callback(const void *msgin)
 {
 	const std_msgs__msg__Int32 *msg = (const std_msgs__msg__Int32 *)msgin;
-	printf("subscription_callback\n");
+	syslog(LOG_NOTICE, "subscription_callback\n");
 }
 
 /*

@@ -1,4 +1,5 @@
 #include <kernel.h>
+#include <t_syslog.h>
 #include <micro_ros_asp.h>
 
 #include <stdio.h>
@@ -19,7 +20,7 @@ std_msgs__msg__Int32 msg;
 
 void error_loop()
 {
-	printf("error_loop\n");
+	syslog(LOG_NOTICE, "error_loop\n");
 	while (1)
 	{
 		dly_tsk(100);

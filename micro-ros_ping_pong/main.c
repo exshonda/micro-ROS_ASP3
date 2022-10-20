@@ -1,4 +1,5 @@
 #include <kernel.h>
+#include <t_syslog.h>
 #include <micro_ros_asp.h>
 
 #include <rcl/rcl.h>
@@ -31,7 +32,7 @@ int seq_no;
 int pong_count;
 
 void error_loop(){
-	printf("error_loop\n");
+	syslog(LOG_NOTICE, "error_loop\n");
 	while(1){
 		dly_tsk(100);
 	}
@@ -56,7 +57,7 @@ void ping_timer_callback(rcl_timer_t * timer, int64_t last_call_time)
 		// Reset the pong count and publish the ping message
 		pong_count = 0;
 		rcl_publish(&ping_publisher, (const void*)&outcoming_ping, NULL);
-		printf("Ping send seq %s\n", outcoming_ping.frame_id.data);
+		syslog(LOG_NOTICE, "Ping send seq %s\n", outcoming_ping.frame_id.data);
 	}
 }
 
@@ -66,7 +67,7 @@ void ping_subscription_callback(const void * msgin)
 
 	// Dont pong my own pings
 	if(strcmp(outcoming_ping.frame_id.data, msg->frame_id.data) != 0){
-		printf("Ping received with seq %s. Answering.\n", msg->frame_id.data);
+		syslog(LOG_NOTICE, "Ping received with seq %s. Answering.\n", msg->frame_id.data);
 		rcl_publish(&pong_publisher, (const void*)msg, NULL);
 	}
 }
@@ -78,7 +79,7 @@ void pong_subscription_callback(const void * msgin)
 
 	if(strcmp(outcoming_ping.frame_id.data, msg->frame_id.data) == 0) {
 		pong_count++;
-		printf("Pong for seq %s (%d)\n", msg->frame_id.data, pong_count);
+		syslog(LOG_NOTICE, "Pong for seq %s (%d)\n", msg->frame_id.data, pong_count);
 	}
 }
 
@@ -158,4 +159,8 @@ void main_task(intptr_t exinf)
 	RCCHECK(rcl_subscription_fini(&ping_subscriber, &node));
 	RCCHECK(rcl_subscription_fini(&pong_subscriber, &node));
 	RCCHECK(rcl_node_fini(&node));
+}
+
+void _fini()
+{
 }
