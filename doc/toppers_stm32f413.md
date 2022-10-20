@@ -280,3 +280,33 @@
     ```bash
     MicroXRCEAgent serial --dev /dev/ttyACM0 -v 6
     ```
+
+    トピックが登録されていることを確認．
+
+    ```bash
+    ros2 topic list
+    /microROS/ping
+    /microROS/pong
+    /parameter_events
+    /rosout
+    ```    
+
+    パブリッシュされているトピックを確認．
+
+    ```bash
+    ros2 topic echo /microROS/ping
+    stamp:
+      sec: 913
+      nanosec: 145000000
+    frame_id: '412266125_323618167'
+    ```
+
+    トピックを送る．
+     
+    ```bash
+    ros2 topic echo /microROS/pong
+    ```
+
+    ```bash
+    ros2 topic pub --once /microROS/ping std_msgs/msg/Header '{frame_id: "fake_ping"}'
+    ```
