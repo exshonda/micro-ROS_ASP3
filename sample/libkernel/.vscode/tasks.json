@@ -8,7 +8,7 @@
         "owner": "cpp",
         "fileLocation": [
             "relative",
-            "${workspaceFolder}/Debug"
+            "${workspaceFolder}"
         ],
         "pattern": {
             "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error|fatal error):\\s+(.*)$",
@@ -21,40 +21,16 @@
     },
     "tasks": [
         {
-            "label": "build discovery_f413xx_gcc/libkernel.a",
+            "label": "build libkernel.a",
             "args": [
-                "-C",
-                "discovery_f413xx_gcc",
                 "libkernel.a"
             ],
             "command": "make",
             "group": "build"
         },
         {
-            "label": "clean discovery_f413xx_gcc/libkernel.a",
+            "label": "clean libkernel.a",
             "args": [
-                "-C",
-                "discovery_f413xx_gcc",
-                "clean"
-            ],
-            "command": "make",
-            "group": "build"
-        },
-        {
-            "label": "build nucleo_f767zi_gcc/libkernel.a",
-            "args": [
-                "-C",
-                "nucleo_f767zi_gcc",
-                "libkernel.a"
-            ],
-            "command": "make",
-            "group": "build"
-        },
-        {
-            "label": "clean nucleo_f767zi_gcc/libkernel.a",
-            "args": [
-                "-C",
-                "nucleo_f767zi_gcc",
                 "clean"
             ],
             "command": "make",

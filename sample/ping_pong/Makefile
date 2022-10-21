@@ -48,9 +48,7 @@ all:
 #
 #  ターゲット略称の定義
 #
-TARGET = discovery_f413xx_gcc
-FPU_ABI = hard
-MCU_WS = mcu_ws
+include ../Makefile.target
 
 #
 #  プログラミング言語の定義
@@ -68,7 +66,7 @@ endif
 #
 #  ソースファイルのディレクトリの定義
 #
-SRCDIR = ../../asp3_f413xx
+SRCDIR = ../../asp3
 
 #
 #  オブジェクトファイル名の拡張子の設定
@@ -79,7 +77,7 @@ OBJEXT = elf
 #  カーネルライブラリ（libkernel.a）のディレクトリ名
 #  （カーネルライブラリもmake対象にする時は，空に定義する）
 #
-KERNEL_LIB = ../libkernel/$(TARGET)
+KERNEL_LIB = ../libkernel
 
 #
 #  カーネルを関数単位でコンパイルするかどうかの定義

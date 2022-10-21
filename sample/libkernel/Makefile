@@ -55,12 +55,12 @@ include ../Makefile.target
 #
 SRCLANG = c
 ifeq ($(SRCLANG),c)
-	LIBS = -lc -lnosys
+	LIBS = -lc
 endif
 ifeq ($(SRCLANG),c++)
 	USE_CXX = true
-	CXXLIBS = -lstdc++ -lm -lc -lnosys
-	CXXRTS = 
+	CXXLIBS = -lstdc++ -lm -lc
+	CXXRTS = cxxrt.o newlibrt.o
 endif
 
 #
@@ -77,7 +77,7 @@ OBJEXT = elf
 #  カーネルライブラリ（libkernel.a）のディレクトリ名
 #  （カーネルライブラリもmake対象にする時は，空に定義する）
 #
-KERNEL_LIB = ../libkernel
+KERNEL_LIB = 
 
 #
 #  カーネルを関数単位でコンパイルするかどうかの定義
@@ -177,26 +177,24 @@ CFLAGS = $(COPTS) $(CDEFS) $(INCLUDES)
 #
 #  アプリケーションプログラムに関する定義
 #
-APPLNAME = main
+APPLNAME = dummy
 APPLDIRS = .
-APPL_CFG = main.cfg
-APPL_CDL = main.cdl
+APPL_CFG = dummy.cfg
+APPL_CDL = dummy.cdl
 
 APPL_DIRS := $(APPLDIRS) $(SRCDIR)/library
 APPL_ASMOBJS :=
 ifdef USE_CXX
-	APPL_CXXOBJS := main.o
+	APPL_CXXOBJS := dummy.o
 	APPL_COBJS :=
 else
-	APPL_COBJS := main.o
+	APPL_COBJS := dummy.o
 endif
 APPL_COBJS := $(APPL_COBJS) log_output.o vasyslog.o t_perror.o strerror.o
 APPL_CFLAGS := $(APPL_CFLAGS)
 ifdef APPLDIRS
 	INCLUDES := $(INCLUDES) $(foreach dir,$(APPLDIRS),-I$(dir))
 endif
-
-include ../../micro_ros_asp/micro_ros_asp.mk
 
 #
 #  システムサービスに関する定義
@@ -293,7 +291,6 @@ endif
 #
 vpath %.c $(KERNEL_DIRS) $(SYSSVC_DIRS) $(APPL_DIRS)
 vpath %.S $(KERNEL_DIRS) $(SYSSVC_DIRS) $(APPL_DIRS)
-vpath %.cpp $(APPL_DIRS)
 vpath %.cfg $(APPL_DIRS)
 vpath %.cdl $(APPL_DIRS)
 
@@ -386,7 +383,7 @@ offset.timestamp: cfg1_out.db cfg1_out.syms cfg1_out.srec
 #
 #  カーネルライブラリファイルの生成
 #
-libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS)
+libkernel.a: $(DEPDIR) $(OBJDIR) $(OFFSET_H) $(KERNEL_LIB_OBJS)
 	rm -f libkernel.a
 	$(AR) -rcs libkernel.a $(KERNEL_LIB_OBJS)
 	$(RANLIB) libkernel.a
@@ -409,9 +406,8 @@ $(OBJDIR)/tBannerMain.o: $(filter-out $(OBJDIR)/tBannerMain.o,$(ALL_OBJS)) \
 #
 $(OBJFILE): $(ALL_OBJS) $(LIBS_DEP)
 	$(LINK) $(CFLAGS) $(LDFLAGS) $(OBJ_LDFLAGS) -o $(OBJFILE) \
-			-Wl,-Map=$(OBJNAME).map,--cref \
 			$(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG_OBJS) \
-			-Wl,--start-group $(ALL_LIBS) -Wl,--end-group $(END_OBJS)
+			$(ALL_LIBS) $(END_OBJS)
 
 #
 #  依存関係フォルダの作成

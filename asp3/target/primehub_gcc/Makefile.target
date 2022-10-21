@@ -1,0 +1,143 @@
+#asp3/arch/arm_m_gcc/stm32f4xx_stm32cube/ 
+#		Makefile のターゲット依存部（NUCLEO_F401RE用）
+#
+
+#
+#  ボード名, チップ名，コア名，開発環境名の定義
+#
+BOARD = primehub
+CHIP  = stm32f4xx_stm32cube
+PRC   = arm_m
+TOOL  = gcc
+FPU_ABI = hard
+
+#
+#  FPUを使用するか
+#
+FPU_USAGE = FPU_LAZYSTACKING
+
+#
+#  使用するタイマ
+#
+KERNEL_TIMER = SYSTICK
+#KERNEL_TIMER = TIM
+
+#
+#  コンパイルオプション
+#
+INCLUDES := $(INCLUDES) -I$(TARGETDIR) -I$(TARGETDIR)/stm32fcube
+CDEFS := $(CDEFS) -DSTM32F413xx
+COPTS := $(COPTS) -mtune=cortex-m4
+COPTS := $(COPTS) -DUSE_FULL_LL_DRIVER
+#LDFLAGS := -nostdlib -nostartfiles $(LDFLAGS)
+LDFLAGS := -nostartfiles $(LDFLAGS)
+
+#
+# ファイルサイズ削減のためのオプション
+#
+COPTS   := $(COPTS) -ffunction-sections -fdata-sections
+OBJ_LDFLAGS := $(OBJ_LDFLAGS) -Wl,--gc-sections
+
+#
+#  カーネルに関する定義
+#
+KERNEL_DIRS := $(KERNEL_DIRS) $(TARGETDIR) $(TARGETDIR)/stm32fcube
+KERNEL_ASMOBJS := $(KERNEL_ASMOBJS) start.o
+KERNEL_COBJS := $(KERNEL_COBJS) target_kernel_impl.o \
+                system_stm32f4xx.o stm32f4xx_nucleo.o systemclock_config.o
+
+# KERNEL_COBJS := $(KERNEL_COBJS) stm32f4xx_hal.o \
+# 								stm32f4xx_hal_adc.o stm32f4xx_hal_adc_ex.o \
+#                 stm32f4xx_hal_cortex.o \
+# 								stm32f4xx_hal_dac.o stm32f4xx_hal_dac_ex.o \
+#                 stm32f4xx_hal_dma.o \
+# 								stm32f4xx_hal_gpio.o \
+#                 stm32f4xx_hal_i2c.o stm32f4xx_hal_fmpi2c.o \
+#                 stm32f4xx_hal_pwr_ex.o \
+#                 stm32f4xx_hal_rcc.o stm32f4xx_hal_rcc_ex.o\
+#                 stm32f4xx_hal_spi.o \
+# 								stm32f4xx_hal_tim.o stm32f4xx_hal_tim_ex.o \
+# 								stm32f4xx_hal_uart.o
+# 								
+# KERNEL_COBJS := $(KERNEL_COBJS) stm32f4xx_hal_pcd.o stm32f4xx_hal_pcd_ex.o stm32f4xx_ll_usb.o
+
+#
+#  ドライバ関連のインクルード
+#
+#include $(TARGETDIR)/drivers/Makefile
+
+#
+#  ライブラリの追加
+#
+LIBS += $(TARGETDIR)/libpybricks.a
+
+#
+#  システムサービスに関する定義
+#
+SYSSVC_DIRS := $(SYSSVC_DIRS)
+SYSSVC_COBJS := $(SYSSVC_COBJS)
+
+#
+#  使用するタイマ
+#
+ifeq ($(KERNEL_TIMER), SYSTICK)
+CDEFS := $(CDEFS) -DUSE_SYSTICK_AS_TIMETICK
+KERNEL_COBJS := $(KERNEL_COBJS) core_timer.o
+else
+ifeq ($(KERNEL_TIMER), TIM)
+CDEFS := $(CDEFS) -DUSE_TIM_AS_HRT
+KERNEL_COBJS := $(KERNEL_COBJS) target_timer.o
+endif
+endif
+
+#
+#  GNU開発環境のターゲットアーキテクチャの定義
+#
+GCC_TARGET = arm-none-eabi
+
+#
+#  トレースログ記録のサンプルコードに関する定義
+#
+ifdef ENABLE_TRACE
+	COPTS := $(COPTS) -DTOPPERS_ENABLE_TRACE
+	SYSSVC_DIRS := $(SYSSVC_DIRS) $(SRCDIR)/arch/tracelog
+endif
+
+#
+#  依存関係の定義
+#
+cfg1_out.timestamp: $(TARGETDIR)/target_timer.cfg
+offset.timestamp: 
+kernel_cfg.timestamp: $(TARGETDIR)/target_kernel.trb
+check.timestamp: $(TARGETDIR)/target_check.trb
+
+#
+#  リンカスクリプトの定義
+#
+LDSCRIPT = $(TARGETDIR)/stm32f413xx.ld
+
+#
+#  チップ依存部のインクルード
+#
+include $(SRCDIR)/arch/$(PRC)_$(TOOL)/$(CHIP)/Makefile.chip
+
+
+#
+#  フラッシュへの書き込み
+#
+PYTHON3 :=  python3
+
+DFU = $(TARGETDIR)/tools/dfu.py
+PYDFU = $(TARGETDIR)/tools/pydfu.py
+
+TEXT0_ADDR = 0x8008000
+DFU_VID = 0x0694
+DFU_PID = 0x0008
+
+$(OBJNAME).dfu: $(OBJNAME).bin
+	@echo "DFU Create $@"
+	$(PYTHON3) $(DFU) -b $(TEXT0_ADDR):$< $@
+
+deploy-dfu: $(OBJNAME).dfu
+	@echo "Writing $< to the board"
+	sudo $(PYTHON3) $(PYDFU) -u $< $(if $(DFU_VID),--vid $(DFU_VID)) $(if $(DFU_PID),--pid $(DFU_PID))
