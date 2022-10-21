@@ -6,7 +6,8 @@
 TARGET = discovery_f413xx_gcc
 MCU_WS = mcu_ws
 
-# Nucleo F767zi
+# Nucleo F767ZI
+# （トピックの登録は出来るが途中で止まってしまう）
 #TARGET = nucleo_f767zi_gcc
 #MCU_WS = mcu_ws_f767zi
 

@@ -24,10 +24,12 @@
 
 ### micro-ROS開発環境の構築
 
+micro-ROSをビルドしない場合は、11.の手順から行う。
+
 0. 前準備 : ビルドを高速化するために以下を設定。NUMには並列コンパイルの数を記載する。
 
     ```bash
-    export MAKEFLAGS="-j NUM"    
+    export MAKEFLAGS="-j NUM"
     ```
 
 1. ロケールを設定するため、以下のコマンドを実行する。
@@ -107,14 +109,6 @@
 
     ping_pongは、パブリッシャーが2つ`RMW_UXRCE_MAX_PUBLISHERS=2`、サブスクライバー2つ`RMW_UXRCE_MAX_SUBSCRIPTIONS=2`でビルドされるので、他のアプリより汎用的。
 
-    コンパイルオプションを変更する
-
-    firmware/freertos_apps/microros_nucleo_f446re_extensions/Makefile
-    
-    ```bash
-    FLOAT-ABI = -mfloat-abi=softfp
-    ```
-
 9. ビルドを実行する。
 
     ```bash
@@ -128,7 +122,7 @@
     ```
 
     `firmware.zip`ファイルの中か下記のフォルダツリーとなっている。
-    TOPPERSアプリで必要なのは`mcu_ws`フォルダのみ。
+    TOPPERSアプリで必要なのは`mcu_ws`フォルダと`libmicroros.a`のみ。
 
     ```plantuml
     @startuml
@@ -139,6 +133,9 @@
         firmware
         + dev_ws
         + freertos_apps
+        ++ microros_nucleo_f446re_extensions
+        +++build
+        ++++libmicroros.a
         + mcu_ws
         + toolchain
     }
@@ -155,7 +152,8 @@
 
     下記のフォルダツリーになっている。
 
-    `libmicroros.a`を再ビルドするには、`firmware.zip`の`mcu_ws`を下記の`mcu_ws`に展開し、`mcu_ws/Makefile`で`make`することで`libmicroros.a`がビルドされる。
+    上記の手順でビルドした`libmicroros.a`を使用する場合は、`firmware.zip`の`mcu_ws`を下記の`mcu_ws`に展開する。
+    また、`freertos_apps\microros_nucleo_f446re_extensions\build\libmicroros.a`を、`mcu_ws`に保存する。
 
     ```plantuml
     @startuml
@@ -164,37 +162,35 @@
     {
     {T
         micro-ROS_ASP3
-        + asp3_f413xx
-        + libkernel
-        ++ nucleo_f767zi_gcc
-        +++ deps
-        +++ build
-        +++ **Makefile**
-        ++ discovery_f413xx_gcc
-        +++ deps
-        +++ build
-        +++ **Makefile**
+        + asp3
         + mcu_ws
         ++ libmicroros.a
-        ++ **Makefile**
+        + mcu_ws_f767zi
+        ++ libmicroros.a
         + micro_ros_asp
-        + micro-ros_joystick
-        ++ deps
-        ++ build
-        ++ **Makefile**
-        + micro-ros_ping_pong
-        ++ deps
-        ++ build
-        ++ **Makefile**
-        + micro-ros_publisher
-        ++ deps
-        ++ build
-        ++ **Makefile**
-        + micro-ros_subscriber
-        ++ deps
-        ++ build
-        ++ **Makefile**
-        + svd
+        + sample
+        ++ joystick
+        +++ deps
+        +++ build
+        +++ **Makefile**
+        ++ libkernel
+        +++ deps
+        +++ build
+        +++ **Makefile**
+        ++ ping_pong
+        +++ deps
+        +++ build
+        +++ **Makefile**
+        ++ publisher
+        +++ deps
+        +++ build
+        +++ **Makefile**
+        ++ subscriber
+        +++ deps
+        +++ build
+        +++ **Makefile**
+        ++ svd
+        ++ **Makefile.target**
         + README.md
         + **Makefile**
         + microros.code-workspace
@@ -204,7 +200,11 @@
     @enduml
     ```
 
+    `mcu_ws_f767zi`フォルダは、上記8.の手順以降を`nucleo_f767zi`で行ったもの。
+
 12. TOPPERS/ASP3とアプリをビルドする
+
+    `sample\Makefile.target`で使用するターゲットボードの定義のみをコメントアウトする。
 
     上記で、`deps`と`build`フォルダがない場合は作成する。
 
@@ -221,21 +221,22 @@
     {
     {T
         micro-ROS_ASP3
-        + micro-ros_joystick
-        ++ **asp.bin**
-        + micro-ros_ping_pong
-        ++ **asp.bin**
-        + micro-ros_publisher
-        ++ **asp.bin**
-        + micro-ros_subscriber
-        ++ **asp.bin**
+        + sample
+        ++ joystick
+        +++ **asp.bin**
+        ++ ping_pong
+        +++ **asp.bin**
+        ++ publisher
+        +++ **asp.bin**
+        ++ subscriber
+        +++ **asp.bin**
     }
     }
 
     @enduml
     ```
 
-### 再ビルドの手順
+### micro-ROSの再ビルドの手順
 
 1. 環境変数を設定
 
@@ -289,7 +290,7 @@
     /microROS/pong
     /parameter_events
     /rosout
-    ```    
+    ```
 
     パブリッシュされているトピックを確認．
 
@@ -302,7 +303,7 @@
     ```
 
     トピックを送る．
-     
+
     ```bash
     ros2 topic echo /microROS/pong
     ```
