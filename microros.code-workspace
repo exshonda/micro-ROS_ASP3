@@ -7,9 +7,6 @@
 			"path": "asp3_f413xx"
 		},
 		{
-			"path": "libkernel"
-		},
-		{
 			"path": "micro_ros_asp"
 		},
 		{
@@ -17,6 +14,9 @@
 		},
 		{
 			"path": "mcu_ws_f767zi"
+		},
+		{
+			"path": "sample/libkernel"
 		},
 		{
 			"path": "sample/publisher"

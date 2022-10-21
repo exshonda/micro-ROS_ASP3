@@ -48,8 +48,7 @@ all:
 #
 #  ターゲット略称の定義
 #
-TARGET = discovery_f413xx_gcc
-FPU_ABI = hard
+TARGET = nucleo_f767zi_gcc
 
 #
 #  プログラミング言語の定義
@@ -67,7 +66,7 @@ endif
 #
 #  ソースファイルのディレクトリの定義
 #
-SRCDIR = ../../asp3_f413xx
+SRCDIR = ../../../asp3_f413xx
 
 #
 #  オブジェクトファイル名の拡張子の設定
