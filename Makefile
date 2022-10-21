@@ -23,16 +23,16 @@ $(LIBMICROROS_F767):
 	$(MAKE) -j -C mcu_ws_f767zi all
 
 $(PUBLISHER_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS) $(LIBMICROROS_F767)
-	$(MAKE) -j -C micro-ros_publisher all
+	$(MAKE) -j -C sample/publisher all
 
 $(SUBSCRIBER_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS) $(LIBMICROROS_F767)
-	$(MAKE) -j -C micro-ros_subscriber all
+	$(MAKE) -j -C sample/subscriber all
 
 $(PING_PONG_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS) $(LIBMICROROS_F767)
-	$(MAKE) -j -C micro-ros_ping_pong all
+	$(MAKE) -j -C sample/ping_pong all
 
 $(JOYSTICK_ELF): $(LIBKERNEL_F413) $(LIBKERNEL_F767) #$(LIBMICROROS) $(LIBMICROROS_F767)
-	$(MAKE) -j -C micro-ros_joystick all
+	$(MAKE) -j -C sample/joystick all
 
 .PHONY: refresh
 refresh: 
@@ -54,10 +54,10 @@ clean:
 	$(MAKE) -j -C libkernel/nucleo_f767zi_gcc clean
 #	$(MAKE) -j -C mcu_ws clean
 #	$(MAKE) -j -C mcu_ws_f767zi clean
-	$(MAKE) -j -C micro-ros_publisher clean
-	$(MAKE) -j -C micro-ros_subscriber clean
-	$(MAKE) -j -C micro-ros_ping_pong clean
-	$(MAKE) -j -C micro-ros_joystick clean
+	$(MAKE) -j -C sample/publisher clean
+	$(MAKE) -j -C sample/subscriber clean
+	$(MAKE) -j -C sample/ping_pong clean
+	$(MAKE) -j -C sample/joystick clean
 
 .PHONY: realclean
 realclean:
@@ -65,7 +65,7 @@ realclean:
 	$(MAKE) -j -C libkernel/nucleo_f767zi_gcc realclean
 #	$(MAKE) -j -C mcu_ws clean
 #	$(MAKE) -j -C mcu_ws_f767zi clean
-	$(MAKE) -j -C micro-ros_publisher realclean
-	$(MAKE) -j -C micro-ros_subscriber realclean
-	$(MAKE) -j -C micro-ros_ping_pong realclean
-	$(MAKE) -j -C micro-ros_joystick realclean
+	$(MAKE) -j -C sample/publisher realclean
+	$(MAKE) -j -C sample/subscriber realclean
+	$(MAKE) -j -C sample/ping_pong realclean
+	$(MAKE) -j -C sample/joystick realclean

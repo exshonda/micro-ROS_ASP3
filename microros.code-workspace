@@ -19,16 +19,16 @@
 			"path": "mcu_ws_f767zi"
 		},
 		{
-			"path": "micro-ros_publisher"
+			"path": "sample/publisher"
 		},
 		{
-			"path": "micro-ros_subscriber"
+			"path": "sample/subscriber"
 		},
 		{
-			"path": "micro-ros_ping_pong"
+			"path": "sample/ping_pong"
 		},
 		{
-			"path": "micro-ros_joystick"
+			"path": "sample/joystick"
 		}
 	],
 	"settings": {

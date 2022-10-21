@@ -68,7 +68,7 @@ endif
 #
 #  ソースファイルのディレクトリの定義
 #
-SRCDIR = ../asp3_f413xx
+SRCDIR = ../../asp3_f413xx
 
 #
 #  オブジェクトファイル名の拡張子の設定
@@ -79,7 +79,7 @@ OBJEXT = elf
 #  カーネルライブラリ（libkernel.a）のディレクトリ名
 #  （カーネルライブラリもmake対象にする時は，空に定義する）
 #
-KERNEL_LIB = ../libkernel/$(TARGET)
+KERNEL_LIB = ../../libkernel/$(TARGET)
 
 #
 #  カーネルを関数単位でコンパイルするかどうかの定義
@@ -198,7 +198,7 @@ ifdef APPLDIRS
 	INCLUDES := $(INCLUDES) $(foreach dir,$(APPLDIRS),-I$(dir))
 endif
 
-include ../micro_ros_asp/micro_ros_asp.mk
+include ../../micro_ros_asp/micro_ros_asp.mk
 
 #
 #  システムサービスに関する定義
