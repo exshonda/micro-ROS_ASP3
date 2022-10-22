@@ -3,7 +3,6 @@
 #include <t_stdlib.h>
 #include "syssvc/serial.h"
 #include "syssvc/syslog.h"
-#include "main.h"
 #include <time.h>
 #include <errno.h>
 

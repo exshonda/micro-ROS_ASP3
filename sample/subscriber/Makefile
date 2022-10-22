@@ -55,7 +55,7 @@ include ../Makefile.target
 #
 SRCLANG = c
 ifeq ($(SRCLANG),c)
-	LIBS = -lc -lnosys
+	LIBS = -lc
 endif
 ifeq ($(SRCLANG),c++)
 	USE_CXX = true
@@ -196,6 +196,10 @@ ifdef APPLDIRS
 	INCLUDES := $(INCLUDES) $(foreach dir,$(APPLDIRS),-I$(dir))
 endif
 
+#
+#  micro-ROS用Makefile
+#
+MIROROS_ASP3_TOP_DIR = ../../
 include ../../micro_ros_asp/micro_ros_asp.mk
 
 #

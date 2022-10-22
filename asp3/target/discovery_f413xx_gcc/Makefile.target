@@ -51,8 +51,8 @@ KERNEL_COBJS := $(KERNEL_COBJS) target_kernel_impl.o \
 #
 #  システムサービスに関する定義
 #
-SYSSVC_DIRS := $(SYSSVC_DIRS)
-SYSSVC_COBJS := $(SYSSVC_COBJS)
+SYSSVC_DIRS := $(SYSSVC_DIRS) $(TARGETDIR)/../primehub_gcc/drivers
+SYSSVC_COBJS := $(SYSSVC_COBJS) newlib_stub.o
 
 #
 #  使用するタイマ

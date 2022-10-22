@@ -9,12 +9,12 @@ BOARD = primehub
 CHIP  = stm32f4xx_stm32cube
 PRC   = arm_m
 TOOL  = gcc
-FPU_ABI = hard
 
 #
 #  FPUを使用するか
 #
 FPU_USAGE = FPU_LAZYSTACKING
+FPU_ABI = hard
 
 #
 #  使用するタイマ
@@ -74,8 +74,8 @@ LIBS += $(TARGETDIR)/libpybricks.a
 #
 #  システムサービスに関する定義
 #
-SYSSVC_DIRS := $(SYSSVC_DIRS)
-SYSSVC_COBJS := $(SYSSVC_COBJS)
+SYSSVC_DIRS := $(SYSSVC_DIRS) $(TARGETDIR)/drivers
+SYSSVC_COBJS := $(SYSSVC_COBJS) newlib_stub.o
 
 #
 #  使用するタイマ

@@ -3,8 +3,8 @@
 #
 
 # Discovery F413ZH
-TARGET = discovery_f413xx_gcc
-MCU_WS = mcu_ws
+#TARGET = discovery_f413xx_gcc
+#MCU_WS = mcu_ws
 
 # Nucleo F767ZI
 # （トピックの登録は出来るが途中で止まってしまう）
@@ -12,5 +12,5 @@ MCU_WS = mcu_ws
 #MCU_WS = mcu_ws_f767zi
 
 # Prime Hub
-#TARGET = primehub_gcc
-#MCU_WS = mcu_ws
+TARGET = primehub_gcc
+MCU_WS = mcu_ws
