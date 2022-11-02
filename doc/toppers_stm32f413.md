@@ -57,7 +57,13 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
 4. ROS2パッケージをインストールする。以下のコマンドを実行する
 
     ```bash
-    sudo apt update; sudo apt -y install ros-humble-ros-base
+    sudo apt update; sudo apt -y install ros-humble-ros-base    
+    ```
+
+    rviz2等をインストールする場合は以下もインストール．
+
+    ```bash
+    sudo apt install ros-humble-desktop
     ```
 
     ```bash
@@ -281,6 +287,12 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
     ```bash
     MicroXRCEAgent serial --dev /dev/ttyACM0 -v 6
     ```
+
+    USB-UARTの場合
+    
+    ```bash
+    MicroXRCEAgent serial --dev /dev/ttyUSB0 -v 6
+    ```    
 
     トピックが登録されていることを確認．
 
