@@ -57,7 +57,7 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
 4. ROS2パッケージをインストールする。以下のコマンドを実行する
 
     ```bash
-    sudo apt update; sudo apt -y install ros-humble-ros-base    
+    sudo apt update; sudo apt -y install ros-humble-ros-base
     ```
 
     rviz2等をインストールする場合は以下もインストール．
@@ -94,7 +94,7 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
 7. micro_ros_espidf_componentをgitからクローンする。以下のコマンドを実行する。
 
    ```bash
-   pip install pyyaml catkin_pkg
+   # pip install pyyaml catkin_pkg
    git clone -b $ROS_DISTRO https://github.com/micro-ROS/micro_ros_espidf_component.git
    ```
 
@@ -116,11 +116,31 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
 
     ping_pongは、パブリッシャーが2つ`RMW_UXRCE_MAX_PUBLISHERS=2`、サブスクライバー2つ`RMW_UXRCE_MAX_SUBSCRIPTIONS=2`でビルドされるので、他のアプリより汎用的。
 
-9. ビルドを実行する。
+9. コンフィギュレーションを行う。
 
     ```bash
     ros2 run micro_ros_setup build_firmware.sh menuconfig
+    ```
+
+    ![Menuconfig](images/micro-ros_esp32_cfg_1.png)
+
+    ![micro-ROS Transport Settings](micro-ros_esp32_cfg_2.png)
+
+    ![UART Settings](images/micro-ros_esp32_cfg_3.png)
+
+    UARTのTXを12、RXを13に設定する。
+
+    ![ESP32](images/esp32_uart.jpg)
+
+10. ビルドを実行する。
+
+    ```bash
     ros2 run micro_ros_setup build_firmware.sh
+    ```
+
+    ```txt
+    make[2]: Entering directory '/home/nagasima/esp32/firmware/freertos_apps/microros_esp32_extensions/build'
+    esp-idf/main/CMakeFiles/__idf_main.dir/flags.make:8: *** missing separator.  Stop.
     ```
 
     下記を書き直す必要があった。
@@ -129,7 +149,7 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
     make[]...という文字列が混ざってしまっているので削除。
     `-isystem /path/`を`-I/path/`に置き換え
 
-10. ヘッダーファイルとライブラリファイルを得る。
+11. ヘッダーファイルとライブラリファイルを得る。
 
     ```bash
     zip -r firmware firmware
@@ -166,6 +186,19 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
     source /opt/ros/humble/setup.bash
     source ~/uros_ws/install/local_setup.bash
     ```
+
+### WindowsでVSCodeを使ったアプリの作成
+
+VSCodeにEspressif IDF拡張機能をインストール
+
+cmakeの拡張機能が入っていたら無効化しておく。
+![disable_cmake](images/disable_cmake.png)
+
+新しいプロジェクトを作成
+![new_project](images/new_project.png)
+![chose_template](images/chose_template.png)
+![open_project](images/open_project.png)
+![configuration](images/configuration.png)
 
 ## Raspberry Pi 環境
 
@@ -205,10 +238,12 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
     ```
 
     USB-UARTの場合
-    
+
     ```bash
     MicroXRCEAgent serial --dev /dev/ttyUSB0 -v 6
-    ```    
+    ```
+
+    ![通信](images/esp32_uros.gif)
 
     トピックが登録されていることを確認．
 
