@@ -196,9 +196,44 @@ cmakeの拡張機能が入っていたら無効化しておく。
 
 新しいプロジェクトを作成
 ![new_project](images/new_project.png)
+
+テンプレートを選択しプロジェクトを作成
 ![chose_template](images/chose_template.png)
+
+`https://github.com/micro-ROS/micro_ros_espidf_component`と`mcu_ws`を下記のように配置する。
+
+```plantuml
+@startuml
+
+salt
+{
+{T
+    + .devcontainer
+    + .vscode
+    + build
+    + components
+    ++ micro_ros_espidf_component
+    + main
+    + mcu_ws
+    + .gitignore
+    + CMakeLists.txt
+    + README.md
+    + sdkconfig
+}
+}
+
+@enduml
+```
+
+作成したプロジェクトを開く
 ![open_project](images/open_project.png)
+
+コンフィギュレーションを行う
 ![configuration](images/configuration.png)
+
+Ubuntuの`manuconfig`で行ったのと同様、UARTのTX端子を12、RX端子を13に設定する。
+
+画面下のシリアルポートをESP32を接続したポート番号に設定すると、ターゲットの情報が読み取られる。その隣にあるビルドボタンでビルドし、書き込み実行を行う。
 
 ## Raspberry Pi 環境
 
