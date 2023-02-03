@@ -225,7 +225,6 @@ endif
 #
 # micro-ROSのためのMakefile
 #
-MCU_WS = mcu_ws
 MIROROS_ASP3_TOP_DIR = ../../../micro-ROS_ASP3
 include $(MIROROS_ASP3_TOP_DIR)/micro_ros_asp/micro_ros_asp.mk
 

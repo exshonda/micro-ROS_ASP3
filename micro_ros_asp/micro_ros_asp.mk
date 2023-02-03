@@ -1,6 +1,10 @@
+include $(MIROROS_ASP3_TOP_DIR)/Makefile.config
 
 APPL_DIRS += $(MIROROS_ASP3_TOP_DIR)/micro_ros_asp
 APPL_COBJS += micro_ros_asp.o
+
+FIMWARE_DIR = external/$(MIROROS_TARGET)/firmware/
+MCU_WS = $(FIMWARE_DIR)/mcu_ws
 
 INCLUDES += -I$(MIROROS_ASP3_TOP_DIR)/micro_ros_asp
 INCLUDES += -I$(MIROROS_ASP3_TOP_DIR)/$(MCU_WS)/install/action_msgs/include/action_msgs
@@ -46,7 +50,7 @@ INCLUDES += -I$(MIROROS_ASP3_TOP_DIR)/$(MCU_WS)/install/trajectory_msgs/include/
 INCLUDES += -I$(MIROROS_ASP3_TOP_DIR)/$(MCU_WS)/install/unique_identifier_msgs/include/unique_identifier_msgs
 INCLUDES += -I$(MIROROS_ASP3_TOP_DIR)/$(MCU_WS)/install/visualization_msgs/include/visualization_msgs
 
-LDFLAGS += -L$(MIROROS_ASP3_TOP_DIR)/$(MCU_WS)
+LDFLAGS += -L$(MIROROS_ASP3_TOP_DIR)/$(FIMWARE_DIR)/freertos_apps/microros_$(MIROROS_TARGET)_extensions/build/
 
 LIBS += -lmicroros
 

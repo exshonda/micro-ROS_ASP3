@@ -43,3 +43,61 @@
   - 以前作ったWioTerminal\Demo_Zumo_Ros2_RC_Controller\main.cを参考にmain.cを作成
 - 上記4フォルダ共通
   - TOPPERS/ASP3のMakefileに`micro_ros_asp\micro_ros_asp.mk`をインクルードし、`libmicroros.a`をリンクするよう変更
+
+
+# インストール
+
+## ROS2のインストール
+
+0. 前準備
+
+ビルドを高速化するために以下を設定．NUMには並列コンパイルの数を記載する．
+
+    ```bash
+    export MAKEFLAGS="-j NUM"
+    ```
+
+1. ロケールを設定するため、以下のコマンドを実行する。
+
+    ```bash
+    sudo apt update && sudo apt install locales
+    sudo locale-gen en_US en_US.UTF-8
+    sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+    export LANG=en_US.UTF-8
+    ```
+
+2. GPGキーを設定する。以下のコマンドを実行する
+
+    ```bash
+    sudo apt update && sudo apt install curl gnupg2 lsb-release
+    sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+    ```
+
+3. リポジトリをソースリストに追加する。以下のコマンドを実行する
+
+    ```bash
+    sudo echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+    ```
+
+4. ROS2パッケージをインストールする。以下のコマンドを実行する
+
+    ```bash
+    sudo apt update
+    sudo apt install ros-humble-ros-base
+    ```
+
+## micro-ROSのインストール
+
+1. 初期設定
+
+    ```bash
+    cd ./external
+    make setup_miro_ros
+    ```
+
+2. libmicroros.a のビルド
+
+    ```bash
+    cd ./external
+    make build_firmware
+    ```

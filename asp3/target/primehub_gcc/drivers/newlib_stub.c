@@ -60,7 +60,7 @@ int _read(int file, char *ptr, int len) {
 
 #define HEAP_AREA_SIZE 16*1024
 
-/*static*/ uint32_t heap_area[HEAP_AREA_SIZE] __attribute__((aligned(4096)));
+/*static*/ uint8_t heap_area[HEAP_AREA_SIZE] __attribute__((aligned(4096)));
 
 void *_heap_param[2] = {
 	(void *)heap_area,
