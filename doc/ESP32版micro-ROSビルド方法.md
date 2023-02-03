@@ -124,7 +124,7 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
 
     ![Menuconfig](images/micro-ros_esp32_cfg_1.png)
 
-    ![micro-ROS Transport Settings](micro-ros_esp32_cfg_2.png)
+    ![micro-ROS Transport Settings](images/micro-ros_esp32_cfg_2.png)
 
     ![UART Settings](images/micro-ros_esp32_cfg_3.png)
 
