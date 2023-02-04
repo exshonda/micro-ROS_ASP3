@@ -10,6 +10,9 @@ include ../Makefile.config
 
 SHELL=/bin/bash
 
+SOURCE_ROS2 = source /opt/ros/$(ROS_DISTRO)/setup.bash
+SOURCE_MICRO_ROS = source ./uros_ws/install/local_setup.bash
+
 #
 # Setup micro-ROS
 #
@@ -26,18 +29,18 @@ clone_micro-ros:
 	git clone -b humble https://github.com/micro-ROS/micro_ros_setup.git uros_ws/src/micro_ros_setup
 
 init_micro-ros:
-	source /opt/ros/$(ROS_DISTRO)/setup.bash
-	cd ./uros_ws/; rosdep update && rosdep install --from-path src --ignore-src -y; colcon build
+	$(SOURCE_ROS2); \
+    cd ./uros_ws/; rosdep update && rosdep install --from-path src --ignore-src -y; colcon build
 
 init_firmware:
-	source /opt/ros/$(ROS_DISTRO)/setup.bash
-	source ./uros_ws/install/local_setup.bash
-	mkdir ./$(MIROROS_TARGET)
-	cd ./$(MIROROS_TARGET); ros2 run micro_ros_setup create_firmware_ws.sh freertos $(MIROROS_TARGET)
+	mkdir -p ./$(MIROROS_TARGET)
+	$(SOURCE_ROS2); \
+    $(SOURCE_MICRO_ROS); \
+    cd ./$(MIROROS_TARGET); ros2 run micro_ros_setup create_firmware_ws.sh freertos $(MIROROS_TARGET)
 
 config_firmware:
-	source /opt/ros/$(ROS_DISTRO)/setup.bash
-	source ./uros_ws/install/local_setup.bash
+	$(SOURCE_ROS2); \
+    $(SOURCE_MICRO_ROS); \
 	cd ./$(MIROROS_TARGET); ros2 run micro_ros_setup configure_firmware.sh ping_pong --transport serial --dev 3
 
 #

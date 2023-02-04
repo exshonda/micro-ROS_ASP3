@@ -22,27 +22,22 @@
   - micro_ros_asp.c
     - TOPPERSシリアルドライバを使うよう実装
 
-- mcu_ws
-  - <https://github.com/micro-ROS/micro_ros_setup>の手順に従ってビルドした、ST Nucleo F446RE向けのヘッダとライブラリ
-  - ビルド結果から`mcu_ws`と`libmicroros.a`をコピーしたもの
-- mcu_ws_f767zi
-  - <https://github.com/micro-ROS/micro_ros_setup>の手順に従ってビルドした、ST Nucleo F767ZI向けのヘッダとライブラリ
-  - ビルド結果から`mcu_ws`と`libmicroros.a`をコピーしたもの
-
-- sample\Makefile.target
-  - ターゲットボードの選択
-- sample\libkernel
-  - libkernel.aのビルド環境
-- sample\publisher
-  - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
-- sample\subscriber
-  - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
-- sample\ping_pong
-  - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
-- sample\joystick
-  - 以前作ったWioTerminal\Demo_Zumo_Ros2_RC_Controller\main.cを参考にmain.cを作成
-- 上記4フォルダ共通
-  - TOPPERS/ASP3のMakefileに`micro_ros_asp\micro_ros_asp.mk`をインクルードし、`libmicroros.a`をリンクするよう変更
+- sample 
+  - サンプルプログラム
+  - sample\Makefile.target
+    - ターゲットボードの選択
+  - sample\libkernel
+    - libkernel.aのビルド環境
+  - sample\publisher
+    - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
+  - sample\subscriber
+    - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
+  - sample\ping_pong
+    - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
+  - sample\joystick
+    - 以前作ったWioTerminal\Demo_Zumo_Ros2_RC_Controller\main.cを参考にmain.cを作成
+  - 上記4フォルダ共通
+    - TOPPERS/ASP3のMakefileに`micro_ros_asp\micro_ros_asp.mk`をインクルードし、`libmicroros.a`をリンクするよう変更
 
 
 # インストール
@@ -100,4 +95,57 @@
     ```bash
     cd ./external
     make build_firmware
+    ```
+
+## エージェントのインストール    
+
+どちらの方法でも良い．
+
+### エージェントのビルドと実行1
+
+1. 参考
+
+    下記の記事を参考にで`Micro-XRCE-DDS-Agent`をビルドする。
+    <https://qiita.com/lutecia16v/items/5760551dd3a7a0d3e7d3>
+
+2. `Micro-XRCE-DDS-Agent`のコードをクローン
+
+    ``` bash
+    cd ~
+    git clone https://github.com/eProsima/Micro-XRCE-DDS-Agent.git
+    ```
+
+3. ビルド
+
+    ```bash
+    cd Micro-XRCE-DDS-Agent
+    mkdir build && cd build
+    cmake -DTHIRDPARTY=ON ..
+    make
+    sudo make install
+    sudo ldconfig /usr/local/lib/
+    ```
+
+4. 実行
+
+    `verbose_level`を6に設定して、メッセージの受信を表示するようにします。
+
+    ```bash
+    MicroXRCEAgent serial --dev [device] -v 6
+    ```
+
+### エージェントのビルドと実行2
+
+1. エージェントのビルド
+    ```bash
+    cd uros_ws    
+    ros2 run micro_ros_setup create_agent_ws.sh
+    colcon build
+    source install/local_setup.bash
+    ```
+
+2. エージェントの実行
+
+    ```bash
+    ros2 run micro_ros_agent micro_ros_agent serial --dev [device]
     ```
