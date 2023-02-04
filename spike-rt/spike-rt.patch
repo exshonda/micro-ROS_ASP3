@@ -1,0 +1,126 @@
+diff --git a/asp3/syssvc/serial.h b/asp3/syssvc/serial.h
+old mode 100644
+new mode 100755
+index e6c7ef0..4d71930
+--- a/asp3/syssvc/serial.h
++++ b/asp3/syssvc/serial.h
+@@ -66,6 +66,7 @@ typedef struct {
+ extern ER		serial_opn_por(ID portid) throw();
+ extern ER		serial_cls_por(ID portid) throw();
+ extern ER_UINT	serial_rea_dat(ID portid, char *buf, uint_t len) throw();
++extern ER_UINT	serial_trea_dat(ID portid, char *buf, uint_t len, TMO tmout) throw();
+ extern ER_UINT	serial_wri_dat(ID portid, const char *buf, uint_t len) throw();
+ extern ER		serial_ctl_por(ID portid, uint_t ioctl) throw();
+ extern ER		serial_ref_por(ID portid, T_SERIAL_RPOR *pk_rpor) throw();
+diff --git a/asp3/syssvc/tSerialAdapter.c b/asp3/syssvc/tSerialAdapter.c
+old mode 100644
+new mode 100755
+index f87350f..ae8ddf7
+--- a/asp3/syssvc/tSerialAdapter.c
++++ b/asp3/syssvc/tSerialAdapter.c
+@@ -90,7 +90,23 @@ serial_rea_dat(ID portid, char *buf, uint_t len)
+ 		return(E_ID);				/* ポート番号のチェック */
+ 	}
+ 
+-	return(cSerialPort_read(portid - 1, buf, len));
++	return(cSerialPort_read(portid - 1, buf, len, TMO_FEVR));
++}
++
++/*
++ *  シリアルポートからの文字列受信（サービスコール）
++ */
++ER_UINT
++serial_trea_dat(ID portid, char *buf, uint_t len, TMO tmout)
++{
++	if (sns_dpn()) {				/* コンテキストのチェック */
++		return(E_CTX);
++	}
++	if (!(1 <= portid && portid <= N_CP_cSerialPort)) {
++		return(E_ID);				/* ポート番号のチェック */
++	}
++
++	return(cSerialPort_read(portid - 1, buf, len, tmout));
+ }
+ 
+ /*
+diff --git a/asp3/syssvc/tSerialPort.cdl b/asp3/syssvc/tSerialPort.cdl
+old mode 100644
+new mode 100755
+index 9a5a96b..cef9ad3
+--- a/asp3/syssvc/tSerialPort.cdl
++++ b/asp3/syssvc/tSerialPort.cdl
+@@ -55,7 +55,7 @@ import_C("syssvc/serial.h");
+ signature sSerialPort {
+ 	ER		open(void);
+ 	ER		close(void);
+-	ER_UINT	read([out,size_is(length)] char *buffer, [in] uint_t length);
++	ER_UINT	read([out,size_is(length)] char *buffer, [in] uint_t length, [in] TMO tmout);
+ 	ER_UINT	write([in,size_is(length)] const char *buffer, [in] uint_t length);
+ 	ER		control([in] uint_t ioControl);
+ 	ER		refer([out] T_SERIAL_RPOR *pk_rpor);
+diff --git a/asp3/syssvc/tSerialPortMain.c b/asp3/syssvc/tSerialPortMain.c
+old mode 100644
+new mode 100755
+index 9e1616f..e6bb1b4
+--- a/asp3/syssvc/tSerialPortMain.c
++++ b/asp3/syssvc/tSerialPortMain.c
+@@ -396,7 +396,7 @@ serialPort_readChar(CELLCB *p_cellcb, char *p_c)
+  *  シリアルポートからの文字列受信（受け口関数）
+  */
+ ER_UINT
+-eSerialPort_read(CELLIDX idx, char *buffer, uint_t length)
++eSerialPort_read(CELLIDX idx, char *buffer, uint_t length, TMO tmout)
+ {
+ 	CELLCB	*p_cellcb;
+ 	bool_t	buffer_empty;
+@@ -422,8 +422,14 @@ eSerialPort_read(CELLIDX idx, char *buffer, uint_t length)
+ 	buffer_empty = true;			/* ループの1回めはwai_semする */
+ 	while (reacnt < length) {
+ 		if (buffer_empty) {
+-			SVC(rercd = cReceiveSemaphore_wait(),
+-										gen_ercd_wait(rercd, p_cellcb));
++			rercd = cReceiveSemaphore_waitTimeout(tmout);
++			if (rercd == E_TMOUT)
++				return E_TMOUT;
++			if (rercd < 0) {
++				gen_ercd_wait(rercd, p_cellcb);
++				ercd = rercd;
++				goto error_exit;
++			}
+ 		}
+ 		SVC(rercd = serialPort_readChar(p_cellcb, &c), rercd);
+ 		*buffer++ = c;
+@@ -568,7 +574,7 @@ eiSIOCBR_readyReceive(CELLIDX idx)
+ 		 *  送信を再開する．
+ 		 */
+ 		VAR_sendStopped = false;
+-		while (VAR_sendCount > 0U) {
++		if (VAR_sendCount > 0U) {
+ 			c = VAR_sendBuffer[VAR_sendReadPointer];
+ 			if (serialPort_sendChar(p_cellcb, c)) {
+ 				INC_PTR(VAR_sendReadPointer, ATTR_sendBufferSize);
+@@ -579,9 +585,6 @@ eiSIOCBR_readyReceive(CELLIDX idx)
+ 				}
+ 				VAR_sendCount--;
+ 			}
+-			else {
+-				break;
+-			}
+ 		}
+ 	}
+ 	else if ((VAR_ioControl & IOCTL_FCSND) != 0U && c == FC_START) {
+diff --git a/drivers/serial/tSerialAsyncPortMain.c b/drivers/serial/tSerialAsyncPortMain.c
+old mode 100644
+new mode 100755
+index 98bf5a3..ab1101f
+--- a/drivers/serial/tSerialAsyncPortMain.c
++++ b/drivers/serial/tSerialAsyncPortMain.c
+@@ -392,7 +392,7 @@ serialPort_readChar(CELLCB *p_cellcb, char *p_c)
+  *  シリアルポートからの文字列受信（受け口関数）
+  */
+ ER_UINT
+-eSerialPort_read(CELLIDX idx, char *buffer, uint_t length)
++eSerialPort_read(CELLIDX idx, char *buffer, uint_t length, TMO tmout)
+ {
+   CELLCB  *p_cellcb;
+   bool_t  buffer_empty;

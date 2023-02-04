@@ -131,6 +131,7 @@
     `verbose_level`を6に設定して、メッセージの受信を表示するようにします。
 
     ```bash
+    source /opt/ros/humble/setup.bash
     MicroXRCEAgent serial --dev [device] -v 6
     ```
 
