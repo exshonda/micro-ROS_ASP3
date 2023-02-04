@@ -34,6 +34,12 @@
   - 上記4フォルダ共通
     - TOPPERS/ASP3のMakefileに`micro_ros_asp\micro_ros_asp.mk`をインクルードし、`libmicroros.a`をリンクするよう変更
 
+- spike-rt
+  - spike-rt向けサンプルプログラム
+
+- external
+  - miro-ROSのビルド用ディレクトリ
+
 
 # インストール
 
