@@ -40,6 +40,19 @@
 - external
   - miro-ROSのビルド用ディレクトリ
 
+# ターゲット毎の設定
+
+## Discovery F413ZH
+
+USB-UARTを以下のポートに接続する．
+- UART_RX  : CN8 - D1
+- UART_TX  : CN8 - D0
+- UART_GND : CN8 - GND
+
+## Nucleo F401RE
+- UART_RX  : CN10(左-下から3) PA_10
+- UART_TX  : CN10(左-下から9)  PA_9
+- UART_GND : CN10(右-下から10)
 
 # インストール
 
