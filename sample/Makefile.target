@@ -6,4 +6,7 @@
 #TARGET = discovery_f413xx_gcc
 
 # Prime Hub
-TARGET = primehub_gcc
+#TARGET = primehub_gcc
+
+# Nucleo F401RE
+TARGET = nucleo_f401re_gcc
