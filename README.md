@@ -58,9 +58,7 @@ USB-UARTを以下のポートに接続する．
 
 ## ROS2のインストール
 
-0. 前準備
-
-ビルドを高速化するために以下を設定．NUMには並列コンパイルの数を記載する．
+0. 前準備 ビルドを高速化するために以下を設定．NUMには並列コンパイルの数を記載する．
 
     ```bash
     export MAKEFLAGS="-j NUM"
@@ -164,3 +162,28 @@ USB-UARTを以下のポートに接続する．
     ```bash
     ros2 run micro_ros_agent micro_ros_agent serial --dev [device]
     ```
+
+## サンプルプログラムのビルド
+
+1. ターゲットの指定 
+- sample/Makefile.target を編集してターゲットを指定する．
+
+```
+# Discovery F413ZH
+#TARGET = discovery_f413xx_gcc
+
+# Prime Hub
+#TARGET = primehub_gcc
+
+# Nucleo F401RE
+TARGET = nucleo_f401re_gcc
+```
+
+- 各サンプルのディレクトリで以下のコマンドを実行
+
+```
+make asp.bin
+```
+
+- 作成されたasp.binを書き込む．
+   - Nucleoの場合はフォルダに書き込む．
