@@ -179,7 +179,14 @@ USB-UARTを以下のポートに接続する．
 TARGET = nucleo_f401re_gcc
 ```
 
-- 各サンプルのディレクトリで以下のコマンドを実行
+2. カーネルライブラリのビルド
+
+```
+cd libkernel
+make libkernal.a
+```
+
+3. 各サンプルのディレクトリで以下のコマンドを実行
 
 ```
 make asp.bin

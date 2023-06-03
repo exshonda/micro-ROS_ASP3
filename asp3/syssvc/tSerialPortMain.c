@@ -423,8 +423,10 @@ eSerialPort_read(CELLIDX idx, char *buffer, uint_t length, TMO tmout)
 	while (reacnt < length) {
 		if (buffer_empty) {
 			rercd = cReceiveSemaphore_waitTimeout(tmout);
-			if (rercd == E_TMOUT)
-				return E_TMOUT;
+			if (rercd == E_TMOUT) {
+				ercd = E_TMOUT;
+				goto error_exit;
+			}
 			if (rercd < 0) {
 				gen_ercd_wait(rercd, p_cellcb);
 				ercd = rercd;
