@@ -26,9 +26,9 @@
   - sample\publisher
     - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
   - sample\subscriber
-    - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
+    - <https://github.com/micro-ROS/freertos_apps>のapps/int32_subscriber/app.cを参考にmain.cを作成
   - sample\ping_pong
-    - <https://github.com/micro-ROS/freertos_apps>のapps/int32_publisher/app.cを参考にmain.cを作成
+    - <https://github.com/micro-ROS/freertos_apps>のapps/ping_pong/app.cを参考にmain.cを作成
   - sample\joystick
     - 以前作ったWioTerminal\Demo_Zumo_Ros2_RC_Controller\main.cを参考にmain.cを作成
   - 上記4フォルダ共通
