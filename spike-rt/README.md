@@ -6,7 +6,7 @@ https://github.com/spike-rt/spike-rt/tree/88ebbf0f73c676ac3ebec30369d999395c279b
 ## ビルド方法
 
 ### SPIKE-RTへのパッチ
-- spike-rt.mk をSPIKE-RTに適用
+- spike-rt.patch をSPIKE-RTに適用
 	- シリアルドライバにタイムアウト付きリード関数を追加する．
 
 ### sapike-rt.mkの変更
