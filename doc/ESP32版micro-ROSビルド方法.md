@@ -14,7 +14,7 @@
 
 2. Windows PC
 
-    TOPPERS/ASP3やサンプルアプリをビルドする環境
+    Espressif IDFやサンプルアプリをビルドする環境
 
 3. Raspberry Pi : Raspberry Pi 3B+にUbuntu 22.04 64bitをインストールした環境
 
@@ -156,7 +156,7 @@ micro-ROSをビルドしない場合は、11.の手順から行う。
     ```
 
     `firmware.zip`ファイルの中か下記のフォルダツリーとなっている。
-    TOPPERSアプリで必要なのは`mcu_ws`フォルダと`libmicroros.a`のみ。
+    Espressif IDFアプリで必要なのは`mcu_ws`フォルダと`libmicroros.a`のみ。
 
     ```plantuml
     @startuml
