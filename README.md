@@ -102,13 +102,6 @@ USB-UARTを以下のポートに接続する．
     make setup_miro_ros
     ```
 
-2. libmicroros.a のビルド
-
-    ```bash
-    cd ./external
-    make build_firmware
-    ```
-
 ## エージェントのインストール    
 
 どちらの方法でも良い．
@@ -166,20 +159,28 @@ USB-UARTを以下のポートに接続する．
 ## サンプルプログラムのビルド
 
 1. ターゲットの指定 
-- sample/Makefile.target を編集してターゲットを指定する．
+- Makefile.config を編集してターゲットを指定する．
 
 ```
 # Discovery F413ZH
-#TARGET = discovery_f413xx_gcc
+#BUILDTARGET = discovery
 
 # Prime Hub
-#TARGET = primehub_gcc
+#BUILDTARGET = primehub
 
 # Nucleo F401RE
-TARGET = nucleo_f401re_gcc
+BUILDTARGET = nucleo_f401re
 ```
 
-2. カーネルライブラリのビルド
+2. libmicroros.a のビルド
+
+    ```bash
+    cd ./external
+    make init_firmware
+    make build_firmware
+    ```
+
+3. カーネルライブラリのビルド
 
 ```
 cd libkernel

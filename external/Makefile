@@ -16,7 +16,7 @@ SOURCE_MICRO_ROS = source ./uros_ws/install/local_setup.bash
 #
 # Setup micro-ROS
 #
-setup_miro_ros: apt_micro_ros clone_micro-ros init_micro-ros init_firmware config_firmware
+setup_miro_ros: init_micro-ros clone_micro-ros apt_micro_ros 
 
 apt_micro_ros: 
 	sudo apt update
@@ -33,20 +33,14 @@ init_micro-ros:
     cd ./uros_ws/; rosdep update && rosdep install --from-path src --ignore-src -y; colcon build
 
 init_firmware:
-	mkdir -p ./$(MIROROS_TARGET)
+	mkdir -p ./$(BUILDTARGET)
 	$(SOURCE_ROS2); \
     $(SOURCE_MICRO_ROS); \
-    cd ./$(MIROROS_TARGET); ros2 run micro_ros_setup create_firmware_ws.sh freertos $(MIROROS_TARGET)
+    cd ./$(BUILDTARGET); ros2 run micro_ros_setup create_firmware_ws.sh generate_lib
 
-config_firmware:
-	$(SOURCE_ROS2); \
-    $(SOURCE_MICRO_ROS); \
-	cd ./$(MIROROS_TARGET); ros2 run micro_ros_setup configure_firmware.sh ping_pong --transport serial --dev 3
-
-#
-# Build firmware
-#
 build_firmware:
 	source /opt/ros/$(ROS_DISTRO)/setup.bash
 	source ./uros_ws/install/local_setup.bash
-	cd ./$(MIROROS_TARGET); ros2 run micro_ros_setup build_firmware.sh
+	cd ./$(BUILDTARGET); ros2 run micro_ros_setup build_firmware.sh \
+    $$(pwd)/../../micro_ros_asp/$(BUILDTARGET)_toolchain.cmake \
+    $$(pwd)/../../micro_ros_asp/asp_colcon.meta

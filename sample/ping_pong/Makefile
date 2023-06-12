@@ -48,7 +48,12 @@ all:
 #
 #  ターゲット略称の定義
 #
-include ../Makefile.target
+include ../../Makefile.config
+
+#
+#  ASP3のターゲット名に変更
+#
+TARGET := $(BUILDTARGET)_gcc
 
 #
 #  プログラミング言語の定義
