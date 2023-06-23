@@ -101,5 +101,9 @@ size_t asp_transport_read(struct uxrCustomTransport* transport, uint8_t* buf, si
 	if (err != NULL)
 		*err = 0;
 
+	if (MERCD(ercd) == E_TMOUT) {
+		ercd = 0;
+	}
+    
 	return ercd;
 }
