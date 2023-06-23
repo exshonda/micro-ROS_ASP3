@@ -61,7 +61,7 @@ index 9a5a96b..cef9ad3
 diff --git a/asp3/syssvc/tSerialPortMain.c b/asp3/syssvc/tSerialPortMain.c
 old mode 100644
 new mode 100755
-index 9e1616f..e6bb1b4
+index 9e1616f..9672d7a
 --- a/asp3/syssvc/tSerialPortMain.c
 +++ b/asp3/syssvc/tSerialPortMain.c
 @@ -396,7 +396,7 @@ serialPort_readChar(CELLCB *p_cellcb, char *p_c)
@@ -73,15 +73,17 @@ index 9e1616f..e6bb1b4
  {
  	CELLCB	*p_cellcb;
  	bool_t	buffer_empty;
-@@ -422,8 +422,14 @@ eSerialPort_read(CELLIDX idx, char *buffer, uint_t length)
+@@ -422,8 +422,16 @@ eSerialPort_read(CELLIDX idx, char *buffer, uint_t length)
  	buffer_empty = true;			/* ループの1回めはwai_semする */
  	while (reacnt < length) {
  		if (buffer_empty) {
 -			SVC(rercd = cReceiveSemaphore_wait(),
 -										gen_ercd_wait(rercd, p_cellcb));
 +			rercd = cReceiveSemaphore_waitTimeout(tmout);
-+			if (rercd == E_TMOUT)
-+				return E_TMOUT;
++			if (rercd == E_TMOUT) {
++				ercd = E_TMOUT;
++				goto error_exit;
++			}
 +			if (rercd < 0) {
 +				gen_ercd_wait(rercd, p_cellcb);
 +				ercd = rercd;
@@ -90,7 +92,7 @@ index 9e1616f..e6bb1b4
  		}
  		SVC(rercd = serialPort_readChar(p_cellcb, &c), rercd);
  		*buffer++ = c;
-@@ -568,7 +574,7 @@ eiSIOCBR_readyReceive(CELLIDX idx)
+@@ -568,7 +576,7 @@ eiSIOCBR_readyReceive(CELLIDX idx)
  		 *  送信を再開する．
  		 */
  		VAR_sendStopped = false;
@@ -99,7 +101,7 @@ index 9e1616f..e6bb1b4
  			c = VAR_sendBuffer[VAR_sendReadPointer];
  			if (serialPort_sendChar(p_cellcb, c)) {
  				INC_PTR(VAR_sendReadPointer, ATTR_sendBufferSize);
-@@ -579,9 +585,6 @@ eiSIOCBR_readyReceive(CELLIDX idx)
+@@ -579,9 +587,6 @@ eiSIOCBR_readyReceive(CELLIDX idx)
  				}
  				VAR_sendCount--;
  			}
@@ -109,10 +111,20 @@ index 9e1616f..e6bb1b4
  		}
  	}
  	else if ((VAR_ioControl & IOCTL_FCSND) != 0U && c == FC_START) {
+diff --git a/asp3/target/primehub_gcc/Makefile.target b/asp3/target/primehub_gcc/Makefile.target
+index f0fb013..d252be2 100755
+--- a/asp3/target/primehub_gcc/Makefile.target
++++ b/asp3/target/primehub_gcc/Makefile.target
+@@ -136,4 +136,4 @@ $(OBJNAME).dfu: $(OBJNAME).bin
+ 
+ deploy-dfu: $(OBJNAME).dfu
+ 	@echo "Writing $< to the board"
+-	$(PYTHON3) $(PYDFU) -u $< $(if $(DFU_VID),--vid $(DFU_VID)) $(if $(DFU_PID),--pid $(DFU_PID))
++	sudo $(PYTHON3) $(PYDFU) -u $< $(if $(DFU_VID),--vid $(DFU_VID)) $(if $(DFU_PID),--pid $(DFU_PID))
 diff --git a/drivers/serial/tSerialAsyncPortMain.c b/drivers/serial/tSerialAsyncPortMain.c
 old mode 100644
 new mode 100755
-index 98bf5a3..ab1101f
+index 97f9ebb..318f580
 --- a/drivers/serial/tSerialAsyncPortMain.c
 +++ b/drivers/serial/tSerialAsyncPortMain.c
 @@ -392,7 +392,7 @@ serialPort_readChar(CELLCB *p_cellcb, char *p_c)
