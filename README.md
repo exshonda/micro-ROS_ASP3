@@ -112,7 +112,7 @@ USB-UARTを以下のポートに接続する．
 
 1. 参考
 
-    下記の記事を参考にで`Micro-XRCE-DDS-Agent`をビルドする。
+    下記の記事を参考に`Micro-XRCE-DDS-Agent`をビルドする。
     <https://qiita.com/lutecia16v/items/5760551dd3a7a0d3e7d3>
 
 2. `Micro-XRCE-DDS-Agent`のコードをクローン
@@ -192,7 +192,7 @@ make libkernal.a
 3. 各サンプルのディレクトリで以下のコマンドを実行
 
 ```
-make asp.bin
+make
 ```
 
 - 作成されたasp.binを書き込む．
