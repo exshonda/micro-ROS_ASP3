@@ -99,9 +99,9 @@ USB-UARTを以下のポートに接続する．
 
     ```bash
     cd ./external
-    make apt_micro_ros
-    make clone_micro_ros
-    make init_micro_ros
+    make apt_micro-ros
+    make clone_micro-ros
+    make init_micro-ros
     ```
 
 ## エージェントのインストール    

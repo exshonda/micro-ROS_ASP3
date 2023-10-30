@@ -16,8 +16,8 @@ SOURCE_MICRO_ROS = source ./uros_ws/install/local_setup.bash
 #
 # Setup micro-ROS
 #
-setup_micro_ros: 
-	make apt_micro_ros
+setup_micro-ros: 
+	make apt_micro-ros
 	make clone_micro-ros
 	make init_micro-ros
 
@@ -48,4 +48,4 @@ build_firmware:
     $$(pwd)/../../micro_ros_asp/$(BUILDTARGET)_toolchain.cmake \
     $$(pwd)/../../micro_ros_asp/asp_colcon.meta
 
-.PHONY: setup_micro_ros
+.PHONY: setup_micro-ros
