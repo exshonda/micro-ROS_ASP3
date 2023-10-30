@@ -21,7 +21,7 @@ setup_micro-ros:
 	make clone_micro-ros
 	make init_micro-ros
 
-apt_micro_ros: 
+apt_micro-ros: 
 	sudo apt update
 	source /opt/ros/$(ROS_DISTRO)/setup.bash
 	sudo apt install -y python3-pip python3-nose clang-format pyflakes3 python3-mypy python3-pytest-mock gperf \
