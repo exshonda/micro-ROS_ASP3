@@ -1,7 +1,7 @@
 # SPIKE-RT対応
 
 ## 動作確認バージョン
-https://github.com/spike-rt/spike-rt/commit/f6724115b0ef8c8367a760eaec2840089e6b4e55
+https://github.com/spike-rt/spike-rt/commit/d8336a72bb697a38bfbe912bb278371de83a8148
 
 ## ビルド方法
 
@@ -19,4 +19,7 @@ https://github.com/spike-rt/spike-rt/commit/f6724115b0ef8c8367a760eaec2840089e6b
 - SPIKE-RT_KERNELLIB_DIR : spike-rt のカーネルライブラリの場所
 
 ### ビルド
+- spike-rt側で以下のコマンドを実行してライブラリ等をコンパイル．
+  -  ./scripts/build-test.sh
+
 - 各フォルダでSPIKE-RTのサンプルと同様にビルドを実行
